@@ -8,7 +8,6 @@ class Page {
 	private $scripts = array();
 	
 	public function __construct() {
-		if(!isset( $_SESSION)) session_start();
 		$this->time_start = microtime(true);
 		$this->hasLogin = User::isLoggedIn();
 	}
@@ -64,7 +63,7 @@ EOD;
 			学号：<input type="text" class="w80" id="login_xh" />
 			密码：<input type="password" class="w80" id="login_password" />
 			<input id="save_cookie" type="checkbox" />
-			<span onclick="toggleSaveCookie()" class="clickable">记住我</span>
+			<span title="一个月内不用重新登录" onclick="toggleSaveCookie()" class="clickable">记住我</span>
 			<button class="button" onclick="login();">登录</button>
 			<a class="button" href="register.php">注册</a>
 EOD;
@@ -111,7 +110,7 @@ EOD;
 	public function displayFooter() {
 
 		if($this->hasLogin) {
-			echo '<script>checkUnreadMessage();</script>';
+			echo '<script>var interval_checkunread = setInterval(checkUnreadMessage, 60000); checkUnreadMessage();</script>';
 		}
 		
 		$time_end = microtime(true);

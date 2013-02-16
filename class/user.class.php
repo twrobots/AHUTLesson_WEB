@@ -6,7 +6,7 @@ class User {
 	public static $uinfo = array();
 	public static $loadedInfo = false;
 	
-	public static function login($uxh, $password, $remember = true) {
+	public static function login($uxh, $password) {
 		if(self::verify($uxh, $password)) {
 			return '0|'.self::genCookie($uxh, $password);
 		}else{

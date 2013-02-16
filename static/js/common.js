@@ -9,7 +9,7 @@ function login() {
 	var xh = $('#login_xh').val();
 	var password = $('#login_password').val();
 	var rem = $('#save_cookie').attr("checked");
-	$.post('api/login.handler.php', { x: xh, p: password })
+	$.post('api/user.handler.php?act=login', { x: xh, p: password })
 	.done(function(result) {
 		if(result.lastIndexOf('0', 0) == 0) { //begin with 0
 			if(rem) {
@@ -59,8 +59,6 @@ function strtotime(strings) {
 
 var origin_title = '';
 var unreadCount = 0;
-
-var interval_checkunread = setInterval(checkUnreadMessage, 60000); // one min to check unread
 
 function checkUnreadMessage() {
 	$.get('api/pm.handler.php?act=checkunread', function(ret) {

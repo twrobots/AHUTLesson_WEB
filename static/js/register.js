@@ -18,7 +18,7 @@ function checkRegisterForm() {
 	
 	$('#submit_button').html('提交中...');
 	$('#submit_button').attr('disabled', true);
-	$.post("api/register.handler.php", { x: xh, p: password })
+	$.post("api/user.handler.php?act=register", { x: xh, p: password })
 	.done(function(result) {
 		if(result.lastIndexOf('0', 0) == 0) { //begin with 0
 			$.cookie('ck', result.substr(2));
