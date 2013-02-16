@@ -93,7 +93,7 @@ img { border: none; }
 .toolbar { float: right; padding-bottom: 8px; }
 
 /* navtitle */
-.navtitle { color: #DD4B39; line-height: 29px; height: 29px; font-size: 16px; border-bottom: 1px solid #CDCDCD; padding-bottom: 8px; margin: 25px 0px; }
+.navtitle { color: #DD4B39; line-height: 29px; height: 29px; font-size: 16px; border-bottom: 1px solid #CDCDCD; padding-bottom: 8px; margin: 25px 0px; padding-left: 10px; }
 .navtitle a { font-size: 16px; }
 
 .main_message { border:1px solid #CDCDCD; margin: 10px; }

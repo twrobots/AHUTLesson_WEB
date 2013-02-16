@@ -1,5 +1,6 @@
 <?php
 require 'include.php';
+if(!isset($_GET['act'])) exit;
 switch($_GET['act']) {
 	case 'send':
 		$from_uxh = User::getUXH();

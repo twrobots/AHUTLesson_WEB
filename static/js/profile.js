@@ -3,7 +3,7 @@ function setSignature() {
 	if(signature.length > 255) {
 		alert('签名过长（大于255个字符）！');
 	}
-	$.post("api/setsignature.handler.php", { s: signature })
+	$.post("api/user.handler.php?act=setsignature", { s: signature })
 	.done(function(result) {
 		if(result == 0) {
 			alert('设置成功！');

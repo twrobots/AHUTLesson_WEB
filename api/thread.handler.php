@@ -1,5 +1,6 @@
 <?php
 require 'include.php';
+if(!isset($_GET['act'])) exit;
 switch($_GET['act']) {
 	case 'get':
 		if(!isset($_GET['lid']) || !is_numeric($_GET['lid']))exit;

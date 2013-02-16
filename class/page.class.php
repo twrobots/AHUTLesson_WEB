@@ -71,7 +71,7 @@ EOD;
 		}else{
 			$uinfo = User::getUserInfo();
 			echo <<<EOD
-			<span class="welcome">欢迎{$uinfo['uname']}同学!</span>
+			<span class="welcome">欢迎<a target="_blank" href="user.php?uxh={$uinfo['uxh']}">{$uinfo['uname']}</a>同学!</span>
 			<a href="message.php">消息</a>
 			<span class="unreadCount"></span>
 			<span class="pipe">|</span>
@@ -89,9 +89,7 @@ EOD;
 		<div id="navi">
 			<ul>
 EOD;
-		echo "<li><a ";if($this->mod == 'index') echo 'class="selected" '; echo 'href="index.php">首页</a></li>';
 		echo "<li><a ";if($this->mod == 'timetable') echo 'class="selected" '; echo 'href="timetable.php">我的课表</a></li>';
-		echo "<li><a ";if($this->mod == 'forum') echo 'class="selected" '; echo 'href="forum.php">课程论坛</a></li>';
 		echo "<li><a ";if($this->mod == 'android') echo 'class="selected" '; echo 'href="android.php">Android版</a></li>';
 		echo <<<EOD
 			</ul>
