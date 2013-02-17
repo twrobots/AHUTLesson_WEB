@@ -134,9 +134,10 @@ function showOutbox(messages) {
 function deleteMessage(mid) {
 	if(!confirm('确定删除消息？')) return;
 	$.get('api/pm.handler.php?act=delete&mid=' + mid, function(ret) {
-		if(ret != '0') {
-			alert(ret);
+		if(ret.lastIndexOf('0', 0) == 0) {
+			loadInbox();
+		}else if(ret.lastIndexOf('1', 0) == 0) {
+			alert(ret.substr(2));
 		}
 	});
-	loadInbox();
 }

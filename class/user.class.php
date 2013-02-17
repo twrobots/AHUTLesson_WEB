@@ -10,7 +10,7 @@ class User {
 		if(self::verify($uxh, $password)) {
 			return '0|'.self::genCookie($uxh, $password);
 		}else{
-			return '登录失败，请检查学号或密码是否有误';
+			return '1|登录失败，请检查学号或密码是否有误';
 		}
 	}
 	
@@ -64,14 +64,15 @@ class User {
 	
 	public static function setSignature($signature) {
 		$uxh = User::getUXH();
-		if($uxh == false) return '你还没有登录！';
+		if($uxh == false) return '1|你还没有登录！';
 		DB::query("UPDATE ".DB_PREFIX."user SET signature='".$signature."' WHERE uxh='{$uxh}'");
+		echo '0';
 	}
 	
 	
 	public static function register($uxh, $password) {
-		if(self::exists($uxh)) return '该学号已被注册，如有疑问请联系renzhen999@gmail.com';
-		if(!isRealXH($uxh)) return '该学号不存在，如有疑问请联系renzhen999@gmail.com';
+		if(self::exists($uxh)) return '1|该学号已被注册，如有疑问请联系renzhen999@gmail.com';
+		if(!isRealXH($uxh)) return '1|该学号不存在，如有疑问请联系renzhen999@gmail.com';
 		$date = date('Y-m-d H:i:s');
 		$uinfo = getProfileByXH($uxh);
 		DB::query("INSERT INTO ".DB_PREFIX."user (uxh, uname, bj, password, register_time, lastlogin_time) VALUES ('$uxh', '{$uinfo['uname']}', '{$uinfo['bj']}', '$password', '$date', '$date')");

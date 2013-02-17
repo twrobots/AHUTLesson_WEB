@@ -104,13 +104,15 @@ function newPost() {
 	$('#submit_button').html('提交中...');
 	$('#submit_button').attr('disabled', true);
 	$.post("api/post.handler.php?act=new", { c: content, t: tid })
-	.done(function(result) {
-		if(result.lastIndexOf('0', 0) == 0) { //begin with 0
+	.done(function(ret) {
+		if(ret.lastIndexOf('0', 0) == 0) {
 			$('#newpost_content').val('');
-			var newpid = result.substr(2);
+			var newpid = ret.substr(2);
 			window.location.href = "thread.php?tid=" + tid + "&pid=" + newpid;
 		}else{
-			alert(result);
+			if(ret.lastIndexOf('1', 0) == 0) {
+				alert(ret.substr(2));
+			}
 			$('#submit_button').html('提交');
 			$('#submit_button').attr('disabled', false);
 		}
@@ -124,9 +126,10 @@ function scrollToPost(pid) {
 function deletePost(pid) {
 	if(!confirm('确定删除回复帖？')) return;
 	$.get('api/post.handler.php?act=delete&pid=' + pid, function(ret) {
-		if(ret != '0') {
-			alert(ret);
+		if(ret.lastIndexOf('0', 0) == 0) {
+			refreshThread();
+		}else if(ret.lastIndexOf('1', 0) == 0) {
+			alert(ret.substr(2));
 		}
 	});
-	refreshThread();
 }

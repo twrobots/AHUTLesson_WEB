@@ -4,7 +4,7 @@ class Thread {
 	public static function newThread($subject, $content, $lid, $uxh) {
 		$date = date('Y-m-d H:i:s');
 		$uinfo = User::getUserInfo();
-		if($uinfo == false) return '获取用户信息出错';
+		if($uinfo == false) return '1|获取用户信息出错';
 		DB::query("INSERT INTO ".DB_PREFIX."thread (lid, subject, uxh, uname, post_time, lastreply_time, lastreply_uxh, lastreply_uname) VALUES ('$lid', '$subject', '$uxh', '{$uinfo['uname']}', '$date', '$date', '$uxh', '{$uinfo['uname']}')");
 		$tid = mysql_insert_id();
 		DB::query("INSERT INTO ".DB_PREFIX."post (tid, content, uxh, floor, post_time) VALUES ('$tid', '$content', '$uxh', '1', '$date')");
@@ -14,9 +14,9 @@ class Thread {
 	public static function newPost($content, $tid, $uxh) {
 		$date = date('Y-m-d H:i:s');
 		$uinfo = User::getUserInfo();
-		if($uinfo == false) return '获取用户信息出错';
+		if($uinfo == false) return '1|获取用户信息出错';
 		$tinfo = DB::getFirstRow("SELECT * FROM ".DB_PREFIX."thread WHERE tid = '$tid'");
-		if($tinfo == false) return '获取帖子信息出错';
+		if($tinfo == false) return '1|获取帖子信息出错';
 		$floor = DB::getFirstGrid("SELECT COUNT(*) FROM ".DB_PREFIX."post WHERE tid = '$tid'");
 		$floor++; 
 		DB::query("INSERT INTO ".DB_PREFIX."post (tid, content, uxh, floor, post_time) VALUES ('$tid', '$content', '$uxh', '$floor', '$date')");	

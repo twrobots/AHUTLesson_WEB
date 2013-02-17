@@ -13,18 +13,18 @@ switch($_GET['act']) {
 		echo json_encode($return);
 		break;
 	case 'new':
-		if(!isset($_POST['c']) || !isset($_POST['t'])) die('参数错误');
+		if(!isset($_POST['c']) || !isset($_POST['t'])) die('1|参数错误');
 		$content = htmlspecialchars($_POST['c']);
-		if(mb_strlen($content) > 1024) die('内容过长（大于1024个字符）');
+		if(mb_strlen($content) > 1024) die('1|内容过长（大于1024个字符）');
 		$tid = $_POST['t'];
-		if(!is_numeric($tid)) die('参数错误');
-		if(!User::isLoggedIn()) die('你还没有登录，请先登录帐号！');
+		if(!is_numeric($tid)) die('1|参数错误');
+		if(!User::isLoggedIn()) die('1|你还没有登录，请先登录帐号！');
 		echo Thread::newPost($content, $tid, User::getUXH());
 		break;
 	case 'delete':
 		$uinfo = User::getUserInfo();
-		if(!$uinfo) die('你还没有登录，请先登录帐号！');
-		if($uinfo['is_admin'] != 1) die('权限不足！');
+		if(!$uinfo) die('1|你还没有登录，请先登录帐号！');
+		if($uinfo['is_admin'] != 1) die('1|权限不足！');
 		if(!isset($_GET['pid']) || !is_numeric($_GET['pid']))exit;
 		echo deletePostByPid($_GET['pid']);
 		break;

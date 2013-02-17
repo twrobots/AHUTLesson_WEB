@@ -85,9 +85,10 @@ function refreshForum(){
 function deleteThread(tid) {
 	if(!confirm('确定删除帖子？（ID:' + tid + '）')) return;
 	$.get('api/thread.handler.php?act=delete&tid=' + tid, function(ret) {
-		if(ret != '0') {
-			alert(ret);
+		if(ret.lastIndexOf('0', 0) == 0) {
+			refreshForum();
+		}else if(ret.lastIndexOf('1', 0) == 0) {
+			alert(ret.substr(2));
 		}
 	});
-	refreshForum();
 }

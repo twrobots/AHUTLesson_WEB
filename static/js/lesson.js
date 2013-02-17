@@ -106,12 +106,14 @@ function newThread() {
 	$('#submit_button').html('提交中...');
 	$('#submit_button').attr('disabled', true);
 	$.post("api/thread.handler.php?act=new", { s:subject, c: content, l: lid })
-	.done(function(result) {
-		if(result.lastIndexOf('0', 0) == 0) { //begin with 0
-			var newtid = result.substr(2);
+	.done(function(ret) {
+		if(ret.lastIndexOf('0', 0) == 0) { //begin with 0
+			var newtid = ret.substr(2);
 			window.location.href = 'thread.php?tid=' + newtid;
 		}else{
-			alert(result);
+			if(ret.lastIndexOf('1', 0) == 0){
+				alert(ret.substr(2));
+			}
 			$('#submit_button').html('提交');
 			$('#submit_button').attr('disabled', false);
 		}
@@ -121,11 +123,12 @@ function newThread() {
 function deleteThread(tid) {
 	if(!confirm('确定删除帖子？（ID:' + tid + '）')) return;
 	$.get('api/thread.handler.php?act=delete&tid=' + tid, function(ret) {
-		if(ret != '0') {
-			alert(ret);
+		if(ret.lastIndexOf('0', 0) == 0) {
+			refreshForum();
+		}else if(ret.lastIndexOf('1', 0) == 0) {
+			alert(ret.substr(2));
 		}
 	});
-	refreshForum();
 }
 
 function showOrHideLessonmate() {

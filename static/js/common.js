@@ -10,16 +10,16 @@ function login() {
 	var password = $('#login_password').val();
 	var rem = $('#save_cookie').attr("checked");
 	$.post('api/user.handler.php?act=login', { x: xh, p: password })
-	.done(function(result) {
-		if(result.lastIndexOf('0', 0) == 0) { //begin with 0
+	.done(function(ret) {
+		if(ret.lastIndexOf('0', 0) == 0) {
 			if(rem) {
-				$.cookie('ck', result.substr(2), { expires: 30 });
+				$.cookie('ck', ret.substr(2), { expires: 30 });
 			}else{
-				$.cookie('ck', result.substr(2));
+				$.cookie('ck', ret.substr(2));
 			}
 			window.location.href='index.php';
-		}else{
-			alert(result);
+		}else if(ret.lastIndexOf('1', 0) == 0) {
+			alert(ret.substr(2));
 		}
 	});
 }
@@ -61,7 +61,7 @@ var origin_title = '';
 var unreadCount = 0;
 
 function checkUnreadMessage() {
-	$.get('api/pm.handler.php?act=checkunread', function(ret) {
+	$.get('api/pm.handler.php?act=countunread', function(ret) {
 		unreadCount = ret;
 		refreshUnreadCount();
 	});
