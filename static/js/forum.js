@@ -22,9 +22,9 @@ function showForum(threads){
 		if(atToday(lastreply_date)) {
 			timestr = lastreply_date.getHours() + ':' + min;
 		}else if(atThisYear(lastreply_date)){
-			timestr =  month + '/' + lastreply_date.getDate();
+			timestr =  month + '-' + lastreply_date.getDate();
 		}else{
-			timestr =  lastreply_date.getFullYear() + '/' +  month + '/' + lastreply_date.getDate();
+			timestr =  lastreply_date.getFullYear() + '-' +  month + '-' + lastreply_date.getDate();
 		}
 		row += '<div class="threadlist_wrap">';
 		row += '<div class="lesson"><a target="_blank" title="' +  thread['lessonname'] + '(' + thread['teachername'] + ')' + '" href="lesson.php?lid=' + thread['lid'] + '">' + thread['lessonname'] + '(' + thread['teachername'] + ')' + '</a></div>';

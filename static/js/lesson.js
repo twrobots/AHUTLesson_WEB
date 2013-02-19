@@ -25,9 +25,9 @@ function showForum(threads){
 		if(atToday(lastreply_date)) {
 			timestr = lastreply_date.getHours() + ':' + min;
 		}else if(atThisYear(lastreply_date)){
-			timestr =  month + '/' + lastreply_date.getDate();
+			timestr =  month + '-' + lastreply_date.getDate();
 		}else{
-			timestr =  lastreply_date.getFullYear() + '/' +  month + '/' + lastreply_date.getDate();
+			timestr =  lastreply_date.getFullYear() + '-' +  month + '-' + lastreply_date.getDate();
 		}
 		row += '<div class="threadlist_wrap bdb">';
 		row += '<div class="number">' + thread['view'] + '</div>';
