@@ -21,7 +21,7 @@ switch($_GET['act']) {
 		$lid = $_POST['l'];
 		if(!is_numeric($lid)) die('1|参数错误');
 		if(!User::isLoggedIn()) die('1|你还没有登录，请先登录帐号！');
-		echo Thread::newThread($subject, $content, $lid, User::getUXH());
+		echo newThread($subject, $content, $lid, User::getUXH());
 		break;
 	case 'delete':
 		$uinfo = User::getUserInfo();

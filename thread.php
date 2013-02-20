@@ -18,7 +18,6 @@ if(isset($_GET['pid'])) {
 if(!empty($pid)){ 
 	$viewpage = getPageByPid($tid, $pid);
 }
-Thread::addViewCount($tid);
 $tinfo = getThreadInfo($tid);
 if(empty($tinfo)) $page->showError('你要找的帖子不存在或者已被删除');
 $lid = $tinfo['lid'];

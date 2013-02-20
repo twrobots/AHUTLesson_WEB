@@ -3,7 +3,6 @@ require_once 'include/config.inc.php';
 
 require_once 'class/db.class.php';
 require_once 'class/page.class.php';
-require_once 'class/thread.class.php';
 require_once 'class/user.class.php';
 
 require_once 'function/forum.function.php';

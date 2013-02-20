@@ -91,7 +91,7 @@ function newThread() {
 		return;
 	}
 	if(subject.length > 80) {
-		alert('标题过长！（大于80个字符）');
+		alert('标题过长！');
 		return;
 	}
 	if(content.length == '') {
@@ -99,7 +99,7 @@ function newThread() {
 		return;
 	}
 	if(content.length > 1024) {
-		alert('内容过长！（大于1024个字符）');
+		alert('内容过长！');
 		return;
 	}
 	

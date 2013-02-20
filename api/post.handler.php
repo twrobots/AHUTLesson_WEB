@@ -7,6 +7,7 @@ switch($_GET['act']) {
 		if(!isset($_GET['page']) || !is_numeric($_GET['page']))exit;
 		$tid = $_GET['tid'];
 		$page = $_GET['page'];
+		addThreadViewCount($tid);
 		$posts = getPosts($tid, $page);
 		$total = getTotalPostsNum($tid);
 		$return = array($total, $posts);
@@ -19,7 +20,7 @@ switch($_GET['act']) {
 		$tid = $_POST['t'];
 		if(!is_numeric($tid)) die('1|参数错误');
 		if(!User::isLoggedIn()) die('1|你还没有登录，请先登录帐号！');
-		echo Thread::newPost($content, $tid, User::getUXH());
+		echo newPost($content, $tid, User::getUXH());
 		break;
 	case 'delete':
 		$uinfo = User::getUserInfo();
