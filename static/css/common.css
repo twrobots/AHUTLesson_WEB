@@ -16,6 +16,8 @@ img { border: none; }
 .w80 { width: 80px; }
 .w200 { width: 200px; }
 
+.pad5 { padding: 5px; }
+
 .bdt { border-top: 1px solid #CDCDCD; }
 .bdl { border-left: 1px solid #CDCDCD; }
 .bdr { border-right: 1px solid #CDCDCD; }
@@ -75,19 +77,21 @@ img { border: none; }
 #userbar a, #userbar span { line-height:30px; }
 #userbar input { margin-top: 1px; margin-right: 0; }
 #userbar .welcome { margin-right: 10px; }
-#userbar .pipe { margin-left: 6px; color: #CCC; }
-.unreadCount a { color: red; }
+#userbar .pipe { margin: 0px 3px; color: #CCC; }
+.unreadMessageCount a, .unreadNoticeCount a { color: red; }
 
 /* navigation */
-#header { height:70px; border-bottom:2px solid #036A93; padding: 20px 5px 1px; margin-bottom: 20px; }
-.logo { padding:20px; float:left; }
-.logo a { font-size:25px; }
+#header { height:70px; border-bottom: 2px solid #036A93; padding: 20px 5px 1px; margin-bottom: 20px; }
+.logo { padding-top: 5px; padding-left: 10px; }
+.sitename { padding: 10px; }
+.sitename a { font-size: 25px; }
+
 #navi { height:60px; float:right; }
 	#navi a { font-size:20px; padding: 10px; padding-left: 15px; padding-right: 15px; }
-	#navi .selected{ border-top:2px solid #036A93; }
-	#navi a:hover{ border-top:2px solid #036A93; }
+	#navi .selected { border-top: 2px solid #036A93; }
+	#navi a:hover { border-top: 2px solid #036A93; }
 	#navi ul { padding-left: 22px; }
-	#navi ul li { float:left; list-style:none; padding: 15px 10px 0px; }
+	#navi ul li { float:left; list-style: none; padding: 15px 10px 0px; }
 
 /* toolbar */
 .toolbar { float: right; padding-bottom: 8px; }
@@ -188,18 +192,26 @@ img { border: none; }
 
 .pmdiv { line-height: 20px;padding: 10px 20px; position: fixed; left: 50%; top: 50%; margin: -140px 0 0 -100px; z-index: 100; border: 5px solid #A8C1FD; background-color:white; box-shadow: 0px 0px 7px #bbb; }
 
-/* message */
-.nav-tab, #messagelist { width: 700px; }
+/* nav-tab */
 .nav-tab { border-bottom: 1px solid #CDCDCD; margin-top: 10px; }
-.nav-tab ul { list-style: none; padding-left: 10px; margin-bottom: 5px;}
-.nav-tab li { display: inline; background-color: #F2F2F2; padding: 5px 10px; }
+.nav-tab ul { list-style: none; padding-left: 10px; margin-bottom: 8px;}
+.nav-tab li { display: inline; background-color: #F2F2F2; padding: 8px 15px; }
 .nav-tab .selected { background: #FFF; border-left: 1px solid #CDCDCD; border-right: 1px solid #CDCDCD; border-top: 1px solid #CDCDCD; border-bottom: 1px solid #FFF;}
 
+/* message */
 .messagelist_wrap { padding: 8px 5px; line-height: 25px; }
 .messagelist_wrap:hover { background:#F2F2F2; }
 .messagelist_wrap .avatar { width: 40px; margin: 0px 10px; height: 35px;}
 .messagelist_wrap .uname { width: 125px; line-height: 20px; }
-.messagelist_wrap .title { width: 340px; margin: 0px 15px; }
-.messagelist_wrap .titlebold { width: 340px; margin: 0px 15px; font-weight: bold; }
+.messagelist_wrap .title { width: 480px; margin: 0px 15px; }
+.messagelist_wrap .titlebold { width: 480px; margin: 0px 15px; font-weight: bold; }
 .messagelist_wrap .content { margin-left: 10px; margin-top: 8px; padding: 0px 10px; }
 .messagelist_wrap .action { padding-top: 5px; }
+
+/* notice */
+.noticelist_wrap { padding: 8px 5px; line-height: 25px; }
+.noticelist_wrap:hover { background:#F2F2F2; }
+.noticelist_wrap .avatar { width: 40px; margin: 0px 10px; height: 35px;}
+.noticelist_wrap .uname { width: 125px; line-height: 20px; }
+.noticelist_wrap .title { width: 600px; margin: 0px 15px; }
+.noticelist_wrap .titlebold { width: 600px; margin: 0px 15px; font-weight: bold; }

@@ -4,45 +4,80 @@ function isValidXH($uxh) {
 }
 
 function isRealXH($uxh) {		
-	if(mysql_num_rows(DB::query("SELECT * FROM ".DB_PREFIX."profile WHERE uxh = '$uxh'"))){
+	if(mysql_num_rows(DB::query("SELECT * FROM ahut_profile WHERE uxh = '$uxh'"))){
 		return true;
 	}
 }
 
 function getUserInfoByXH($uxh) { //must be registered uxh
-	return DB::getFirstRow("SELECT a.*,b.* FROM ".DB_PREFIX."user a,".DB_PREFIX."profile b WHERE a.uxh = b.uxh AND a.uxh = '$uxh'");
+	return DB::getFirstRow("SELECT a.*,b.* FROM ahut_user a,ahut_profile b WHERE a.uxh = b.uxh AND a.uxh = '$uxh'");
 }
 
 function getProfileByXH($uxh) { //can be not-registerd uxh
-	return DB::getFirstRow("SELECT * FROM ".DB_PREFIX."profile WHERE uxh = '$uxh'");
+	return DB::getFirstRow("SELECT * FROM ahut_profile WHERE uxh = '$uxh'");
 }
 
+function setAvatarState($uxh) {
+	DB::query("UPDATE ahut_user SET `has_avatar` = 1 WHERE uxh = '$uxh'");
+}
+
+
+//Message
 function sendPM($title, $content, $from_uxh, $to_uxh) {
 	$date = date('Y-m-d H:i:s');
 	if($from_uxh == $to_uxh) return false;
-	return DB::query("INSERT INTO ".DB_PREFIX."message (`title`, `content`, `read`, `from_uxh`, `to_uxh`, `post_time`) VALUES ('$title', '$content', 0, '$from_uxh', '$to_uxh', '$date')");
+	DB::query("INSERT INTO ahut_message (`title`, `content`, `read`, `from_uxh`, `to_uxh`, `post_time`) VALUES ('$title', '$content', 0, '$from_uxh', '$to_uxh', '$date')");
+	updateUnreadMessageCount($to_uxh);
 }
 
-function getUserInboxMessage($uxh, $page) {
-	$start = ($page - 1) * MESSAGES_PER_PAGE;
-	return DB::getData("SELECT m.*,u.uname FROM ".DB_PREFIX."message m,".DB_PREFIX."user u WHERE to_uxh = '$uxh' AND m.from_uxh = u.uxh ORDER BY post_time DESC LIMIT $start,".MESSAGES_PER_PAGE);
+function updateUnreadMessageCount($uxh) {
+	DB::query("UPDATE ahut_user SET unread_message = (SELECT count(*) FROM ahut_message WHERE to_uxh = '$uxh' AND `read` = 0) WHERE uxh = '$uxh'");
 }
 
-function getUserOutboxMessage($uxh, $page) {
+function getInboxMessage($uxh, $page) {
 	$start = ($page - 1) * MESSAGES_PER_PAGE;
-	return DB::getData("SELECT m.*,u.uname FROM ".DB_PREFIX."message m,".DB_PREFIX."user u WHERE from_uxh = '$uxh' AND m.to_uxh = u.uxh ORDER BY post_time DESC LIMIT $start,".MESSAGES_PER_PAGE);	
+	return DB::getData("SELECT m.*,u.uname,u.has_avatar FROM ahut_message m,ahut_user u WHERE to_uxh = '$uxh' AND m.from_uxh = u.uxh ORDER BY post_time DESC LIMIT $start,".MESSAGES_PER_PAGE);
+}
+
+function getOutboxMessage($uxh, $page) {
+	$start = ($page - 1) * MESSAGES_PER_PAGE;
+	return DB::getData("SELECT m.*,u.uname,u.has_avatar FROM ahut_message m,ahut_user u WHERE from_uxh = '$uxh' AND m.to_uxh = u.uxh ORDER BY post_time DESC LIMIT $start,".MESSAGES_PER_PAGE);	
 }
 
 function deleteMessageByMid($mid, $uxh) {
-	if(DB::query("DELETE FROM ".DB_PREFIX."message WHERE to_uxh = '$uxh' AND mid = '$mid'"))
-		echo '0';
+	DB::query("DELETE FROM ahut_message WHERE to_uxh = '$uxh' AND mid = '$mid'");
+	updateUnreadMessageCount($uxh);
 }
 
-function unreadMessageCount($uxh) {
-	return DB::getFirstGrid("SELECT count(*) FROM ".DB_PREFIX."message WHERE to_uxh = '$uxh' AND `read` = 0");
-}
-
-function markAsRead($mid, $uxh) {
+function markMessageAsRead($mid, $uxh) {
 	DB::query("UPDATE ahut_message SET `read` = 1 WHERE to_uxh = '$uxh' AND mid = '$mid'");
+	updateUnreadMessageCount($uxh);
 }
+
+//Notice
+function sendReplyNotice($tid, $pid, $subject, $from_uxh, $to_uxh) {
+	$date = date('Y-m-d H:i:s');
+	DB::query("INSERT INTO ahut_notice (`tid`, `pid`, `subject`, `type`, `read`, `from_uxh`, `to_uxh`, `post_time`) VALUES ('$tid', '$pid', '$subject', 'reply', 0, '$from_uxh', '$to_uxh', '$date')");
+	updateUnreadNoticeCount($to_uxh);
+}
+
+function updateUnreadNoticeCount($uxh) {
+	DB::query("UPDATE ahut_user SET unread_notice = (SELECT count(*) FROM ahut_notice WHERE to_uxh = '$uxh' AND `read` = 0) WHERE uxh = '$uxh'");
+}
+
+function getNotice($uxh, $page) {
+	$start = ($page - 1) * NOTICES_PER_PAGE;
+	return DB::getData("SELECT n.*,u.uname,u.has_avatar FROM ahut_notice n,ahut_user u WHERE to_uxh = '$uxh' AND n.from_uxh = u.uxh ORDER BY post_time DESC LIMIT $start,".NOTICES_PER_PAGE);
+}
+
+function markNoticeAsRead($uxh) {
+	DB::query("UPDATE ahut_notice SET `read` = 1 WHERE to_uxh = '$uxh'");
+	DB::query("UPDATE ahut_user SET unread_notice = 0 WHERE uxh = '$uxh'");
+}
+
+//General
+function getUnreadCount($uxh) {
+	return DB::getFirstRow("SELECT unread_message, unread_notice FROM ahut_user WHERE uxh = '$uxh'");
+}
+
 ?>

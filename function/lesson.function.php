@@ -21,10 +21,10 @@ function resultToLessons($result) {
 }
 
 function getLessonInfo($lid) {
-	return DB::getFirstRow("SELECT * FROM ".DB_PREFIX."lesson WHERE lid = '$lid'");
+	return DB::getFirstRow("SELECT * FROM ahut_lesson WHERE lid = '$lid'");
 }
 
 function getLessonmatesByLid($lid) {
-	return DB::getData("SELECT a.*, b.uname, b.zy, b.bj, b.registered FROM ".DB_PREFIX."lessonmate a, ".DB_PREFIX."profile b WHERE a.xh = b.uxh AND lid = '$lid'");
+	return DB::getData("SELECT a.*, b.uname, b.zy, b.bj, b.registered FROM ahut_lessonmate a, ahut_profile b WHERE a.xh = b.uxh AND lid = '$lid'");
 }
 ?>

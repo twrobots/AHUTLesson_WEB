@@ -20,7 +20,9 @@ switch($_GET['act']) {
 		$tid = $_POST['t'];
 		if(!is_numeric($tid)) die('1|参数错误');
 		if(!User::isLoggedIn()) die('1|你还没有登录，请先登录帐号！');
-		echo newPost($content, $tid, User::getUXH());
+		$from_client = 0;
+		if(isset($_GET['from']) && $_GET['from'] == 'mobile') $from_client = 1;
+		echo newPost($content, $tid, User::getUXH(), $from_client);
 		break;
 	case 'delete':
 		$uinfo = User::getUserInfo();

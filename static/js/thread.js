@@ -9,10 +9,6 @@ function loadPage(page, topid){
 }
 
 function showThread(posts){
-	if(posts == null){
-		alert('加载帖子失败');
-		return;
-	}
 	var postlist = '';
 	for(var i = 0; i < posts.length; i++){
 		var post = posts[i];
@@ -20,7 +16,7 @@ function showThread(posts){
 		
 		postlist += '<div class="post_author">';
 		postlist += '<div class="post_author_icon">';
-		postlist += '<a target="_blank" href="user.php?uxh=' + post['uxh'] + '"><img src="' + SERVER_URL + 'api/getavatar.php?uxh=' + post['uxh'] + '" ></a>';
+		postlist += '<a target="_blank" href="user.php?uxh=' + post['uxh'] + '"><img src="' + getAvatarURL(post['uxh'], (post['has_avatar'] == '1')) + '" ></a>';
 		
 		postlist += '</div>';
 		postlist += '<div class="post_author_name">';
@@ -34,7 +30,12 @@ function showThread(posts){
 		
 		postlist += '<div class="post_content_info">';
 		if(is_admin) postlist += '<span class="admin"><a class="clickable" onclick="deletePost(' + post['pid'] + ');">删除</a></span>';	
-		postlist += '<span>' + post['floor'] + '楼' + '</span>';
+		
+		if(post['from_client'] == '1') {
+			postlist += '<span>来自<a target="_blank" href="android.php">Android版</a></span>';
+		}
+		
+		postlist += '<span>' + post['floor'] + '楼</span>';
 		postlist += '<span>' + post['post_time'] + '</span>';
 		postlist += '</div>';
 		

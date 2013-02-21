@@ -15,10 +15,10 @@ class User {
 	}
 	
 	public static function verify($uxh, $password) {
-		$result = DB::getFirstGrid("SELECT password FROM ".DB_PREFIX."user WHERE uxh='$uxh'"); 
+		$result = DB::getFirstGrid("SELECT password FROM ahut_user WHERE uxh='$uxh'"); 
 		if($password == $result) {
 			$date = date('Y-m-d H:i:s');
-			DB::query("UPDATE ".DB_PREFIX."user SET lastlogin_time='".$date."' WHERE uxh='$uxh'");
+			DB::query("UPDATE ahut_user SET lastlogin_time='".$date."' WHERE uxh='$uxh'");
 			self::$uxh = $uxh;
 			self::$loggedIn = true;
 			return true;
@@ -61,27 +61,26 @@ class User {
 			return true;
 		}
 	}
-	
+
 	public static function setSignature($signature) {
 		$uxh = User::getUXH();
 		if($uxh == false) return '1|你还没有登录！';
-		DB::query("UPDATE ".DB_PREFIX."user SET signature='".$signature."' WHERE uxh='{$uxh}'");
+		DB::query("UPDATE ahut_user SET signature='".$signature."' WHERE uxh='{$uxh}'");
 		echo '0';
 	}
-	
 	
 	public static function register($uxh, $password) {
 		if(self::exists($uxh)) return '1|该学号已被注册，如有疑问请联系renzhen999@gmail.com';
 		if(!isRealXH($uxh)) return '1|该学号不存在，如有疑问请联系renzhen999@gmail.com';
 		$date = date('Y-m-d H:i:s');
 		$uinfo = getProfileByXH($uxh);
-		DB::query("INSERT INTO ".DB_PREFIX."user (uxh, uname, bj, password, register_time, lastlogin_time) VALUES ('$uxh', '{$uinfo['uname']}', '{$uinfo['bj']}', '$password', '$date', '$date')");
-		DB::query("UPDATE ".DB_PREFIX."profile SET registered=1 WHERE uxh='$uxh'");
+		DB::query("INSERT INTO ahut_user (uxh, uname, bj, password, register_time, lastlogin_time) VALUES ('$uxh', '{$uinfo['uname']}', '{$uinfo['bj']}', '$password', '$date', '$date')");
+		DB::query("UPDATE ahut_profile SET registered=1 WHERE uxh='$uxh'");
 		return '0|'.self::genCookie($uxh, $password);
 	}
 	
 	public static function exists($uxh) {
-		if(mysql_num_rows(DB::query("SELECT uxh FROM ".DB_PREFIX."user WHERE uxh = '$uxh'"))){
+		if(mysql_num_rows(DB::query("SELECT uxh FROM ahut_user WHERE uxh = '$uxh'"))){
 			return true;
 		}
 	}

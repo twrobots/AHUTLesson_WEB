@@ -15,11 +15,13 @@ loadInbox();
 </script>
 <div class="nav-tab">
 	<ul>
-		<li class="clickable selected" id="inboxbutton"><span onclick="loadInbox();">收件箱</span><span class="unreadCount"></span></li>
+		<li class="clickable selected" id="inboxbutton"><span onclick="loadInbox();">收件箱</span><span class="unreadMessageCount"></span></li>
 		<li class="clickable" id="outboxbutton"><span onclick="loadOutbox();">发件箱</span></li>
 	</ul>
 </div>
 <div id="messagelist">
+</div>
+<div id="pager">
 </div>
 <?php 
 $page->displayFooter();

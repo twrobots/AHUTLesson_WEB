@@ -30,6 +30,15 @@ class DB {
 		return $data;
 	}
 
+	public static function getFirstRow($sql) {
+		$data = self::getData($sql);
+		if(isset($data[0])){
+			return $data[0];
+		}else{
+			return false;
+		}
+	}
+
 	public static function getRowData($sql) {
 		if(!self::$connected) self::connect();
 		$data = array();
@@ -41,15 +50,6 @@ class DB {
 		return $data;
 	}
 	
-	public static function getFirstRow($sql) {
-		$data = self::getData($sql);
-		if(isset($data[0])){
-			return $data[0];
-		}else{
-			return false;
-		}
-	}
-
 	public static function getFirstGrid($sql) {
 		$data =  self::getRowData($sql);
 		if(isset($data[0][0])){

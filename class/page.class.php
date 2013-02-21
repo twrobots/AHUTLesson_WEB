@@ -2,18 +2,24 @@
 class Page {
 
 	private $time_start;
-	private $title = '课友网 - 安工大课程助手网页版';
+	private $title = '课友网';
 	private $mod;
 	private $hasLogin = false;
 	private $scripts = array();
+	private $uinfo = array();
 	
 	public function __construct() {
 		$this->time_start = microtime(true);
 		$this->hasLogin = User::isLoggedIn();
+		$this->uinfo = User::getUserInfo();
 	}
 
 	public function setTitle($title) {
-		$this->title = $title.' - 课友网 - 安工大课程助手网页版';
+		if($this->hasLogin) {
+			$this->title = $title.' - '.$this->uinfo['uname'].' - 课友网';
+		}else{
+			$this->title = $title.' - 课友网 - 安工大课程助手网页版';
+		}
 	}
 
 	public function setMod($mod) {
@@ -50,6 +56,11 @@ EOD;
 		}
 		
 		echo '<script>$.ajaxSetup({ cache: false });</script>';
+
+		if($this->hasLogin) {
+			$uxh = User::getUXH();
+			echo '<script>logged_uxh = "'.$uxh.'"; var interval_checkunread = setInterval(checkUnreadMessage, 300000); checkUnreadMessage();</script>';
+		}
 		
 echo <<<EOD
 </head>
@@ -68,11 +79,13 @@ EOD;
 			<a class="button" href="register.php">注册</a>
 EOD;
 		}else{
-			$uinfo = User::getUserInfo();
 			echo <<<EOD
-			<span class="welcome">欢迎<a target="_blank" href="user.php?uxh={$uinfo['uxh']}">{$uinfo['uname']}</a>同学!</span>
+			<span class="welcome">欢迎<a target="_blank" href="user.php?uxh={$this->uinfo['uxh']}">{$this->uinfo['uname']}</a>同学!</span>
 			<a href="message.php">消息</a>
-			<span class="unreadCount"></span>
+			<span class="unreadMessageCount"></span>
+			<span class="pipe">|</span>
+			<a href="notice.php">提醒</a>
+			<span class="unreadNoticeCount"></span>
 			<span class="pipe">|</span>
 			<a href="profile.php">编辑资料</a><span class="pipe">|</span>
 			<span class="clickable" onclick="loginOut();">退出</span>
@@ -84,7 +97,10 @@ EOD;
 </div>
 <div class="wrap">
 	<div id="header">
-		<div class="logo"><a title="安工大课程助手网页版" href="index.php">课友网</a></div>
+		<div class="logo fl">
+			<a href="index.php"><img class="fl" src="static/img/ahutlesson_mdpi.png"></a>
+			<div class="sitename fl"><a title="安工大课程助手网页版" href="index.php">课友网</a></div>
+		</div>
 		<div id="navi">
 			<ul>
 EOD;
@@ -108,11 +124,6 @@ EOD;
 	}
 	
 	public function displayFooter() {
-
-		if($this->hasLogin) {
-			echo '<script>var interval_checkunread = setInterval(checkUnreadMessage, 60000); checkUnreadMessage();</script>';
-		}
-		
 		$time_end = microtime(true);
 		$exectime = $time_end - $this->time_start;
 		$exectime = number_format($exectime, 6);
@@ -129,8 +140,18 @@ EOD;
 	
 	public function showError($msg) {
 		$this->displayHeader();
-		showMessage('访问出错', $msg);
+		$this->showMessage('访问出错', $msg);
 		$this->displayFooter();
 		exit;
 	}
+	
+	public function showMessage($title, $content) {
+		echo <<<EOD
+<div class="main_message">
+	<div class="block_title">$title</div>
+	<div class="main_message_content">$content</div>
+</div>
+EOD;
+	}
+	
 }

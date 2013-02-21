@@ -41,7 +41,7 @@ EOD;
 		<ul class="userfeed">
 <?php
 $start = ($viewpage - 1) * $feeds_per_page;
-$userfeeds = DB::getData("SELECT p.*, t.lid, t.subject ,l.* FROM ".DB_PREFIX."post p,".DB_PREFIX."thread t,".DB_PREFIX."lesson l WHERE p.tid = t.tid AND t.lid = l.lid AND p.uxh = '$uxh' ORDER BY p.post_time DESC LIMIT $start,$feeds_per_page");
+$userfeeds = DB::getData("SELECT p.*, t.lid, t.subject ,l.* FROM ahut_post p,ahut_thread t,ahut_lesson l WHERE p.tid = t.tid AND t.lid = l.lid AND p.uxh = '$uxh' ORDER BY p.post_time DESC LIMIT $start,$feeds_per_page");
 foreach($userfeeds as $userfeed) {
 	echo <<<EOD
 	<li><div class="lessonname fr"><a target="_blank" href="lesson.php?lid={$userfeed['lid']}">{$userfeed['lessonname']} - {$userfeed['teachername']}</a></div>在<a target="_blank" href="thread.php?tid={$userfeed['tid']}">{$userfeed['subject']}</a>中发言：<br /><a target="_blank" href="thread.php?tid={$userfeed['tid']}&pid={$userfeed['pid']}"><div class="quote">{$userfeed['content']}</div></a><div class="time">{$userfeed['post_time']}</div></li>

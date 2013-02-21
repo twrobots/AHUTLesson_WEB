@@ -2,7 +2,17 @@
 require 'include.php';
 if(!isset($_GET['act'])) exit;
 switch($_GET['act']) {
-	case 'send':
+	case 'getunreadcount':
+		$uxh = $_GET['uxh'];
+		if(!isValidXH($uxh)) exit;
+		$unread_count = getUnreadCount($uxh);
+		if($unread_count == false) exit;
+		$ret = array($unread_count['unread_message'], $unread_count['unread_notice']);
+		echo json_encode($ret);
+		break;
+	
+	//message
+	case 'sendmessage':
 		$from_uxh = User::getUXH();
 		if(!$from_uxh) die('1|你还没有登录!');
 		if(!isset($_POST['u']) || !isset($_POST['t']) || !isset($_POST['c']) || !isValidXH($_POST['u'])) die('1|参数错误');
@@ -19,31 +29,36 @@ switch($_GET['act']) {
 		if(!$uxh) exit;
 		if(!isset($_GET['page']) || !is_numeric($_GET['page']))exit;
 		$page = $_GET['page'];
-		echo json_encode(getUserInboxMessage($uxh, $page));
+		echo json_encode(getInboxMessage($uxh, $page));
 		break;
 	case 'getoutbox':
 		$uxh = User::getUXH();
 		if(!$uxh) exit;
 		if(!isset($_GET['page']) || !is_numeric($_GET['page']))exit;
 		$page = $_GET['page'];
-		echo json_encode(getUserOutboxMessage($uxh, $page));
+		echo json_encode(getOutboxMessage($uxh, $page));
 		break;
-	case 'delete':
+	case 'deletemessage':
 		$uxh = User::getUXH();
 		if(!$uxh) die('1|你还没有登录!');
 		if(!isset($_GET['mid']) || !is_numeric($_GET['mid']))exit;
-		echo deleteMessageByMid($_GET['mid'], $uxh);
+		deleteMessageByMid($_GET['mid'], $uxh);
 		break;
-	case 'countunread':
-		$uxh = User::getUXH();
-		if(!$uxh) die('0');
-		echo unreadMessageCount($uxh);
-		break;
-	case 'markasread':
+	case 'markmessageasread':
 		$uxh = User::getUXH();
 		if(!$uxh) die('1|你还没有登录!');
 		if(!isset($_GET['mid']) || !is_numeric($_GET['mid']))exit;
-		markAsRead($_GET['mid'], $uxh);
+		markMessageAsRead($_GET['mid'], $uxh);
+		break;
+		
+	//notice
+	case 'getnotice':
+		$uxh = User::getUXH();
+		if(!$uxh) exit;
+		if(!isset($_GET['page']) || !is_numeric($_GET['page']))exit;
+		$page = $_GET['page'];
+		echo json_encode(getNotice($uxh, $page));
+		markNoticeAsRead($uxh);
 		break;
 }
 ?>

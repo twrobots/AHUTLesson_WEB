@@ -7,10 +7,6 @@ function loadPage(page){
 }
 
 function showForum(threads){
-	if(threads == null){
-		alert('获取帖子列表失败...');
-		return;
-	}
 	var row = '';
 	if(threads.length == 0) {
 		row = '<div class="empty_message">还没有人发帖，快来成为第一个发帖的吧！</div>';
@@ -157,10 +153,6 @@ function loadLessonmates(){
 }
 
 function showLessonmates(lessonmates) {
-	if(lessonmates == null){
-		alert('获取课友列表失败...');
-		return;
-	}
 	var row = '';
 	for(var i = 0; i < lessonmates.length; i++){
 		var lessonmate = lessonmates[i];

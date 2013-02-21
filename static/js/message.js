@@ -1,39 +1,15 @@
 function loadInbox() {
+	outboxPage = 1;
 	$('#inboxbutton').addClass('selected');
 	$('#outboxbutton').removeClass('selected');
-	$.getJSON('api/pm.handler.php?act=getinbox&page=' + inboxPage, function(ret) {
+	$.getJSON('api/notice.handler.php?act=getinbox&page=' + inboxPage, function(ret) {
 		showInbox(ret);
 	});
 }
 
-function loadFirstInbox() {
-	inboxPage = 1;
-	loadInbox();
-}
-
-function loadFirstOutbox() {
-	outboxPage = 1;
-	loadOutbox();
-}
-
-function loadNextInbox() {
-	inboxPage++;
-	loadInbox();
-}
-
-function loadNextOutbox() {
-	outboxPage++;
-	loadOutbox();
-}
-
 function showInbox(messages) {
-	console.log(messages);
-	if(messages == null){
-		alert('获取数据失败...');
-		return;
-	}
 	var row = '';
-	if(messages.length == 0) {
+	if(messages.length == 0 && inboxPage == 1) {
 		row = '<div class="empty_message">收件箱为空</div>';
 	}
 	for(var i = 0; i < messages.length; i++){
@@ -41,7 +17,7 @@ function showInbox(messages) {
 		var read = (message['read'] == '0')? false : true;
 		row += '<div class="messagelist_wrap bdb" id="mid' + message['mid'] + '">';
 
-		row += '<div class="avatar fl"><a target="_blank" href="user.php?uxh=' + message['from_uxh'] + '"><img src="' + SERVER_URL + 'api/getavatar.php?uxh=' + message['from_uxh'] + '" style="max-width:35px;max-height:35px;"></a></div>';
+		row += '<div class="avatar fl"><a target="_blank" href="user.php?uxh=' + message['from_uxh'] + '"><img src="' + getAvatarURL(message['from_uxh'], (message['has_avatar'] == '1')) + '" style="max-width:35px;max-height:35px;"></a></div>';
 		row += '<div class="uname fl"><a target="_blank" href="user.php?uxh=' + message['from_uxh'] + '">' + message['uname'] + '</a><br />' + message['post_time'] + '</div>';
 		if(read) {
 			row += '<div class="title fl" onclick=""><a href="javascript:toggleMessage(' + message['mid'] + ')">' + message['title'] + '</a></div>';
@@ -56,22 +32,25 @@ function showInbox(messages) {
 		row += '<div class="content" style="display:none;">' + message['content'] + '</div>';
 		row += '</div>';
 	}
-	row += '<div id="pager">';
+	
 	if(messages.length == messagesPerPage) {
-		row += '<span class="button" onclick="loadNextInbox();">显示更多</span>';
+		$('#pager').html('<span class="button" onclick="loadMoreInbox();">加载更多</span>');
+	}else{
+		$('#pager').html('');
 	}
-	if(inboxPage > 1) {
-		row += '<span class="button" onclick="loadFirstInbox();">返回首页</span>';
+
+	if(inboxPage == 1) {
+		$('#messagelist').html(row);
+	}else{
+		$('#messagelist').append(row);
 	}
-	row += '</div>';
-	$('#messagelist').html(row);
 }
 
 function expandMessage(mid) {
 	$('#mid' + mid + ' .titlebold').addClass('title');
 	$('#mid' + mid + ' .title').removeClass('titlebold');
 	$('#mid' + mid + ' .content').show();
-	markAsRead(mid);
+	markMessageAsRead(mid);
 	$('#mid' + mid + ' .title a').attr('href','javascript:void(0)');
 }
 
@@ -79,38 +58,32 @@ function toggleMessage(mid) {
 	$('#mid' + mid + ' .content').toggle();
 }
 
-function markAsRead(mid) {
-	unreadCount--;
+function markMessageAsRead(mid) {
+	unreadMessageCount--;
 	refreshUnreadCount();
-	$.get('api/pm.handler.php?act=markasread&mid=' + mid);
+	$.get('api/notice.handler.php?act=markmessageasread&mid=' + mid);
 	
 }
 
 function loadOutbox() {
+	inboxPage = 1;
 	$('#inboxbutton').removeClass('selected');
 	$('#outboxbutton').addClass('selected');
-	$('#messagelist').html('');
-	$.getJSON('api/pm.handler.php?act=getoutbox&page=' + outboxPage, function(ret) {
+	$.getJSON('api/notice.handler.php?act=getoutbox&page=' + outboxPage, function(ret) {
 		showOutbox(ret);
 	});
 }
 
 function showOutbox(messages) {
-	console.log(messages);
-	if(messages == null){
-		alert('获取数据失败...');
-		return;
-	}
 	var row = '';
-	if(messages.length == 0) {
+	if(messages.length == 0 && outboxPage == 1) {
 		row = '<div class="empty_message">发件箱为空</div>';
 	}
 	for(var i = 0; i < messages.length; i++){
 		var message = messages[i];
-		var read = (message == '0')? false : true;
 		row += '<div class="messagelist_wrap bdb" id="mid' + message['mid'] + '">';
 
-		row += '<div class="avatar fl"><a target="_blank" href="user.php?uxh=' + message['to_uxh'] + '"><img src="' + SERVER_URL + 'api/getavatar.php?uxh=' + message['to_uxh'] + '" style="max-width:35px;max-height:35px;"></a></div>';
+		row += '<div class="avatar fl"><a target="_blank" href="user.php?uxh=' + message['to_uxh'] + '"><img src="' + getAvatarURL(message['to_uxh'], (message['has_avatar'] == '1')) + '" style="max-width:35px;max-height:35px;"></a></div>';
 		row += '<div class="uname fl"><a target="_blank" href="user.php?uxh=' + message['to_uxh'] + '">' + message['uname'] + '</a><br />' + message['post_time'] + '</div>';
 		row += '<div class="title fl"><a href="javascript:toggleMessage(' + message['mid'] + ')">' + message['title'] + '</a></div>';		
 
@@ -120,24 +93,33 @@ function showOutbox(messages) {
 		row += '</div>';
 	}
 
-	row += '<div>';
+	
 	if(messages.length == messagesPerPage) {
-		row += '<span class="button" onclick="loadNextOutbox();">显示更多</span>';
+		$('#pager').html('<span class="button" onclick="loadMoreOutbox();">加载更多</span>');
+	}else{
+		$('#pager').html('');
 	}
-	if(outboxPage > 1) {
-		row += '<span class="button" onclick="loadFirstOutbox();">返回首页</span>';
+
+	if(outboxPage == 1) {
+		$('#messagelist').html(row);
+	}else{
+		$('#messagelist').append(row);
 	}
-	row += '</div>';
-	$('#messagelist').html(row);
+}
+
+function loadMoreInbox() {
+	inboxPage++;
+	loadInbox();
+}
+
+function loadMoreOutbox() {
+	outboxPage++;
+	loadOutbox();
 }
 
 function deleteMessage(mid) {
 	if(!confirm('确定删除消息？')) return;
-	$.get('api/pm.handler.php?act=delete&mid=' + mid, function(ret) {
-		if(ret.lastIndexOf('0', 0) == 0) {
-			loadInbox();
-		}else if(ret.lastIndexOf('1', 0) == 0) {
-			alert(ret.substr(2));
-		}
+	$.get('api/notice.handler.php?act=deletemessage&mid=' + mid, function(ret) {
+		loadInbox();
 	});
 }

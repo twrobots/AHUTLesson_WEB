@@ -72,5 +72,8 @@ imagedestroy($image);
 if($fileType != ".jpg" && file_exists($tmpAvatar)) {
 	unlink($tmpAvatar);
 }
+
+setAvatarState($uxh);
+
 echo '0';
 ?>

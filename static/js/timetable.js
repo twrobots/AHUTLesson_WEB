@@ -60,5 +60,5 @@ function refreshTimetable(){
 }
 
 function openLessonForum(lid) {
-	window.open("lesson.php?lid=" + lid);
+	window.location.href = "lesson.php?lid=" + lid;
 }

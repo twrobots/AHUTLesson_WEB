@@ -7,10 +7,6 @@ function loadPage(page){
 }
 
 function showForum(threads){
-	if(threads == null){
-		alert('获取帖子列表失败...');
-		return;
-	}
 	var row = '';
 	for(var i = 0; i < threads.length; i++){
 		var thread = threads[i];
