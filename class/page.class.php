@@ -55,13 +55,6 @@ EOD;
 EOD;
 		}
 		
-		echo '<script>$.ajaxSetup({ cache: false });</script>';
-
-		if($this->hasLogin) {
-			$uxh = User::getUXH();
-			echo '<script>logged_uxh = "'.$uxh.'"; var interval_checkunread = setInterval(checkUnreadMessage, 300000); checkUnreadMessage();</script>';
-		}
-		
 echo <<<EOD
 </head>
 <body>
@@ -127,6 +120,12 @@ EOD;
 		$time_end = microtime(true);
 		$exectime = $time_end - $this->time_start;
 		$exectime = number_format($exectime, 6);
+
+		if($this->hasLogin) {
+			$uxh = User::getUXH();
+			echo '<script>logged_uxh = "'.$uxh.'"; var interval_checkunread = setInterval(checkUnreadMessage, 300000); checkUnreadMessage();</script>';
+		}
+		
 		echo <<<EOD
 	</div>
 	<div id="footer">

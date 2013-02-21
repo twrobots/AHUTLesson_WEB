@@ -136,3 +136,5 @@ function sendpm() {
 		$('.pmdiv').fadeOut(500);
 	});
 }
+
+$.ajaxSetup({ cache: false });

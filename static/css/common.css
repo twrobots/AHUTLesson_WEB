@@ -135,7 +135,8 @@ img { border: none; }
 .lesson_content { border:1px solid #CDCDCD; line-height: 26px; width: 874px; }
 .lesson_content .number { float: left; width: 35px; text-align: center; }
 .lesson_content .title { float: left; width: 590px; margin-left: 15px; }
-.lesson_content .title a { font-size: 14px; }
+.lesson_content .title a { float: left; font-size: 14px; }
+.lesson_content .title img { float: left; margin: 5px;}
 .lesson_content .author { float: left; width: 60px; }
 .lesson_content .lastreply { float: left; width: 80px; }
 .lesson_content .admin { float: left; width: 40px; }

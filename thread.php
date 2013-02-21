@@ -34,7 +34,8 @@ var totalPages = 1;
 var currentPage = 1;
 <?php
 $uinfo = User::getUserInfo();
-echo ($uinfo != false && $uinfo['is_admin'] == 1) ? "var is_admin = true;" : "var is_admin = false;";
+$is_admin = ($uinfo != false && $uinfo['is_admin'] == 1);
+echo  $is_admin ? "var is_admin = true;" : "var is_admin = false;";
 echo <<<EOD
 var lid = '$lid';
 var tid = '$tid';
@@ -48,6 +49,7 @@ if(empty($pid)){
 </script>
 <div class="toolbar">
 	<span class="button" onclick="refreshThread()">刷新</span>
+	<?php if($is_admin) echo '<span class="button" onclick="setThreadTop(1)">置顶</span><span class="button" onclick="setThreadTop(0)">取消置顶</span>';?>
 </div>
 <div class="navtitle">
 	<div id="forum_title">

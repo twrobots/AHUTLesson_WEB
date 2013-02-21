@@ -32,5 +32,13 @@ switch($_GET['act']) {
 		if(!isset($_GET['tid']) || !is_numeric($_GET['tid']))exit;
 		echo  deleteThreadByTid($_GET['tid']);
 		break;
+	case 'settop':
+		$uinfo = User::getUserInfo();
+		if(!$uinfo) die('1|你还没有登录，请先登录帐号！');
+		if($uinfo['is_admin'] != 1) die('1|权限不足！');
+		if(!isset($_GET['tid']) || !is_numeric($_GET['tid']))exit;
+		if(!isset($_GET['value']) || !is_numeric($_GET['value']))exit;
+		setThreadTop($_GET['tid'], $_GET['value']);
+		break;
 }
 ?>

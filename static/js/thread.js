@@ -134,3 +134,9 @@ function deletePost(pid) {
 		}
 	});
 }
+
+function setThreadTop(value) {
+	$.get('api/thread.handler.php?act=settop&tid=' + tid + '&value=' + value, function(ret) {
+		if(ret == '') alert('done!');
+	});
+}

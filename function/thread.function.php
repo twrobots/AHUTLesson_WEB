@@ -19,7 +19,7 @@ function updateThreadReplyCount($tid) {
 
 function getThreads($lid, $page) {
 	$start = ($page - 1) * THREADS_PER_PAGE;
-	return DB::getData("SELECT * FROM ahut_thread WHERE lid = '$lid' ORDER BY lastreply_time DESC LIMIT $start,".THREADS_PER_PAGE);
+	return DB::getData("SELECT * FROM ahut_thread WHERE top = 1 UNION SELECT * FROM ahut_thread WHERE lid = '$lid' ORDER BY top DESC, lastreply_time DESC LIMIT $start,".THREADS_PER_PAGE);
 }
 
 function getTotalThreadsNum($lid) {
@@ -34,6 +34,14 @@ function deleteThreadByTid($tid) {
 	DB::query("DELETE FROM ahut_thread WHERE tid = '$tid'");
 	DB::query("DELETE FROM ahut_post WHERE tid = '$tid'");
 	echo '0';
+}
+
+function setThreadTop($tid, $value) {
+	if($value == 1) {
+		DB::query("UPDATE ahut_thread SET top=1 WHERE tid=$tid");
+	}else{
+		DB::query("UPDATE ahut_thread SET top=0 WHERE tid=$tid");
+	}
 }
 
 ?>

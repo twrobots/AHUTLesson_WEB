@@ -1,27 +1,24 @@
 <?php
 require 'include.php';
+$feeds_per_page = 10;
 
-$feeds_per_page = 20;
 $viewpage = 1;
 if(isset($_GET['page']) && is_numeric($_GET['page'])) $viewpage = $_GET['page'];
 
 $page = new Page();
-
 if(!isset($_GET['uxh']) || !is_numeric($_GET['uxh'])) $page->showError('参数错误');
 $uxh = $_GET['uxh'];
-
 $uinfo = getUserInfoByXH($uxh);
 if(!$uinfo) $page->showError('该用户未找到');
 $page->setTitle($uinfo['uname'].'的个人主页');
 $page->displayHeader();
 ?>
-<script type="text/javascript">
-</script>
+
 <div class="userinfo fl bd">
 	<div class="block_title">个人资料</div>
 	<div class="block_content">
+ 	<img alt="用户头像" id="avatarImage" >
 <?php 
-echo '<img src="'.SERVER_URL.'api/getavatar.php?uxh='.$uxh.'">';
 echo <<<EOD
 		<div class="uname">{$uinfo['uname']}</div>
 		<div class="signature" title="个性签名">{$uinfo['signature']}</div>
@@ -48,11 +45,11 @@ foreach($userfeeds as $userfeed) {
 EOD;
 }
 	if(empty($userfeeds)) {
-		echo '<li>没有更多动态可以显示</li>';
+		echo '<li>暂无动态</li>';
 	}else if(count($userfeeds) == $feeds_per_page){
 		$nextpage = $viewpage + 1;
 		echo <<<EOD
-			<li><a href="user.php?uxh=$uxh&page={$nextpage}">下一页</a></li>
+			<li><a class="button" href="user.php?uxh=$uxh&page={$nextpage}">下一页</a></li>
 EOD;
 	}
 ?>
@@ -60,6 +57,17 @@ EOD;
 	</div>
 </div>
 <div class="clear"></div>
+<script>
+<?php 
+echo "var view_uxh = '$uxh';";
+if($uinfo['has_avatar'] == 1) {
+	echo 'var hasAvatar = true;';
+}else{
+	echo 'var hasAvatar = false;';
+}
+?>
+$('#avatarImage').attr('src', getAvatarURL(view_uxh, hasAvatar));
+</script>
 <?php 
 $page->displayFooter();
 ?>

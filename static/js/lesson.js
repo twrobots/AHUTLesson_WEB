@@ -13,6 +13,7 @@ function showForum(threads){
 	}
 	for(var i = 0; i < threads.length; i++){
 		var thread = threads[i];
+		var top = (thread['top'] == 1);
 		var lastreply_date = new strtotime(thread['lastreply_time']);
 		var month = lastreply_date.getMonth() + 1;
 		var timestr = '';
@@ -28,7 +29,11 @@ function showForum(threads){
 		row += '<div class="threadlist_wrap bdb">';
 		row += '<div class="number">' + thread['view'] + '</div>';
 		row += '<div class="number">' + thread['reply'] + '</div>';
-		row += '<div class="title"><a target="_blank" href="thread.php?tid=' + thread['tid'] + '">' + thread['subject'] + '</a></div>';
+		if(top) {
+			row += '<div class="title"><a target="_blank" href="thread.php?tid=' + thread['tid'] + '">' + thread['subject'] + '</a>' + '<img src="static/img/topthread.gif" alt="置顶">' + '</div>';
+		}else{
+			row += '<div class="title"><a target="_blank" href="thread.php?tid=' + thread['tid'] + '">' + thread['subject'] + '</a></div>';
+		}
 		row += '<div class="author"><a target="_blank" href="user.php?uxh=' + thread['uxh'] + '">' + thread['uname'] + '</a></div>';
 		row += '<div class="lastreply">' + timestr + ' ' + '<a target="_blank" href="user.php?uxh=' + thread['lastreply_uxh'] + '">' + thread['lastreply_uname'] + '</a></div>';
 		if(is_admin) row += '<div class="admin"><a class="clickable" onclick="deleteThread(' + thread['tid'] + ');">删除</a></div>';	
