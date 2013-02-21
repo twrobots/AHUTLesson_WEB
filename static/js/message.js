@@ -120,6 +120,7 @@ function loadMoreOutbox() {
 function deleteMessage(mid) {
 	if(!confirm('确定删除消息？')) return;
 	$.get('api/notice.handler.php?act=deletemessage&mid=' + mid, function(ret) {
+		outboxPage = 1;
 		loadInbox();
 	});
 }
