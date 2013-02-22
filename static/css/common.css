@@ -24,7 +24,7 @@ img { border: none; }
 .bdb { border-bottom: 1px solid #CDCDCD; }
 .bd { border:1px solid #CDCDCD; }
 
-.block_title { color: #DD4B39; font-size: 14px !important; padding:0px 10px; height: 31px; border-bottom: 1px solid #C2D5E3; background: #F2F2F2; line-height: 31px; white-space: nowrap; overflow: hidden; }
+.block_title { color: #061852; font-size: 14px !important; padding:0px 10px; height: 31px; border-bottom: 1px solid #C2D5E3; background: #F2F2F2; line-height: 31px; white-space: nowrap; overflow: hidden; }
 .block_content { padding: 5px; }
 
 .button { 
@@ -97,7 +97,7 @@ img { border: none; }
 .toolbar { float: right; padding-bottom: 8px; }
 
 /* navtitle */
-.navtitle { color: #DD4B39; line-height: 29px; height: 29px; font-size: 16px; border-bottom: 1px solid #CDCDCD; padding-bottom: 8px; margin: 25px 0px; padding-left: 10px; }
+.navtitle { color: #061852; line-height: 29px; height: 29px; font-size: 16px; border-bottom: 1px solid #CDCDCD; padding-bottom: 8px; margin: 25px 0px; padding-left: 10px; }
 .navtitle a { font-size: 16px; }
 
 .main_message { border:1px solid #CDCDCD; margin: 10px; }
@@ -170,7 +170,6 @@ img { border: none; }
 /* pager */
 #pager { margin-left: 7px; }
 #pager span { line-height: 40px; font-size: 14px; }
-#pager .clickable {  }
 #pager .normal { font-weight: bold; padding: 4px; margin-right: 5px; }
 
 /* newpost*/

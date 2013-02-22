@@ -24,6 +24,8 @@ var totalPages = 1;
 var currentPage = 1;
 var showLessonmate = false;
 var lessonmates = null;
+var lessonmatePage = 0;
+var lessonmatesPerPage= <?php echo LESSONMATES_PER_PAGE;?>;
 <?php
 echo "var lid = '$lid';";
 echo "loadPage($viewpage);";
@@ -74,9 +76,11 @@ EOD;
 			</div>
 		</div>
 	</div>
-	<div id="lessonmate_block" class="lessonmate bdt bdl bdr fr" style="display:none;">
+	<div id="lessonmate_block" class="lessonmate bdt fr" style="display:none;">
 		<div class="block_title">课友列表</div>
 		<div id="lessonmatelist">
+		</div>
+		<div id="lessonmatePager" style="padding:15px 0px;">
 		</div>
 	</div>
 	<div class="clear"></div>

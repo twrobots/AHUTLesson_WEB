@@ -3,18 +3,18 @@ function isValidXH($uxh) {
 	return preg_match('/^[0-9]{9}$/',$uxh);
 }
 
-function isRealXH($uxh) {		
-	if(mysql_num_rows(DB::query("SELECT * FROM ahut_profile WHERE uxh = '$uxh'"))){
+function isRealXH($xh) {		
+	if(mysql_num_rows(DB::query("SELECT * FROM ahut_profile WHERE xh = '$xh'"))){
 		return true;
 	}
 }
 
 function getUserInfoByXH($uxh) { //must be registered uxh
-	return DB::getFirstRow("SELECT a.*,b.* FROM ahut_user a,ahut_profile b WHERE a.uxh = b.uxh AND a.uxh = '$uxh'");
+	return DB::getFirstRow("SELECT a.*,b.* FROM ahut_user a,ahut_profile b WHERE a.uxh = b.xh AND a.uxh = '$uxh'");
 }
 
-function getProfileByXH($uxh) { //can be not-registerd uxh
-	return DB::getFirstRow("SELECT * FROM ahut_profile WHERE uxh = '$uxh'");
+function getProfileByXH($xh) { //can be not-registerd uxh
+	return DB::getFirstRow("SELECT * FROM ahut_profile WHERE xh = '$xh'");
 }
 
 function setAvatarState($uxh) {

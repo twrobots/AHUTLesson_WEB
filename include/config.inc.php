@@ -23,6 +23,7 @@ define('USE_MIN_JS', false);
 define('LESSON_TABLE', 'lesson2013');
 
 define('THREADS_PER_PAGE', 50);
+define('LESSONMATES_PER_PAGE', 50);
 define('POSTS_PER_PAGE', 20);
 define('MESSAGES_PER_PAGE', 15);
 define('NOTICES_PER_PAGE', 15);

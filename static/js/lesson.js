@@ -135,7 +135,10 @@ function deleteThread(tid) {
 function showOrHideLessonmate() {
 	showLessonmate = !showLessonmate;
 	if(showLessonmate) {
-		loadLessonmates();
+		if(lessonmatePage == 0) {
+			lessonmatePage = 1;
+			loadLessonmates();
+		}
 		$('.lesson_content').css('width','720px');
 		$('.lesson_content .title').css('width','445px');
 		$('#lessonmate_block').css('display','block');
@@ -147,14 +150,9 @@ function showOrHideLessonmate() {
 }
 
 function loadLessonmates(){
-	if(lessonmates != null) {
-		showLessonmates(lessonmates);
-	}else{$.getJSON('api/getlessonmates.php?lid=' + lid, function(ret) {
-		lessonmates = ret;
-		showLessonmates(lessonmates);
+		$.getJSON('api/getlessonmates.php?lid=' + lid + '&page=' + lessonmatePage, function(ret) {
+		showLessonmates(ret);
 	});
-	}
-	
 }
 
 function showLessonmates(lessonmates) {
@@ -162,16 +160,32 @@ function showLessonmates(lessonmates) {
 	for(var i = 0; i < lessonmates.length; i++){
 		var lessonmate = lessonmates[i];
 		var registered = (lessonmate['registered']==1);
-		row += (registered) ? '<div class="lessonmatelist_wrap_registered bdb" title="TA也在课友网哦，点击进入TA的主页">' : '<div class="lessonmatelist_wrap bdb" title="该用户未在课友网注册">';
+		row += (registered) ? '<div class="lessonmatelist_wrap_registered bdl bdr bdb" title="TA也在课友网哦，点击进入TA的主页">' : '<div class="lessonmatelist_wrap bdl bdr bdb" title="该用户未在课友网注册">';
 		if(registered) {
-			row += '<span class="fl"><a target="_blank" href="user.php?uxh=' + lessonmate['xh'] + '"><img src="' + SERVER_URL + 'api/getavatar.php?uxh=' + lessonmate['xh'] + '" style="max-width:35px;max-height:35px;"></a></span>';
-			row += '<span class="fl"><a target="_blank" href="user.php?uxh=' + lessonmate['xh'] + '">' + lessonmate['uname'] + '</a></span>';
+			row += '<span class="fl"><a target="_blank" href="user.php?uxh=' + lessonmate['xh'] + '"><img src="' + getAvatarURL(lessonmate['xh'], (lessonmate['has_avatar'] == 1)) + '" style="max-width:35px;max-height:35px;"></a></span>';
+			row += '<span class="fl"><a target="_blank" href="user.php?uxh=' + lessonmate['xh'] + '">' + lessonmate['xm'] + '</a></span>';
 		}else{
-			row += '<span class="fl">' + lessonmate['uname'] + '</span>';
+			row += '<span class="fl">' + lessonmate['xm'] + '</span>';
 		}
 		row += '<span title="' + lessonmate['zy'] + '专业" class="bj fr">' + lessonmate['bj'] + '</span>';
 		row += '<div class="clear"></div>';	
 		row += '</div>';
 	}
-	$('#lessonmatelist').html(row);
+
+	if(lessonmates.length == lessonmatesPerPage) {
+		$('#lessonmatePager').html('<span class="button" onclick="loadMoreLessonmates();">加载更多</span>');
+	}else{
+		$('#lessonmatePager').html('');
+	}
+
+	if(lessonmatePage == 1) {
+		$('#lessonmatelist').html(row);
+	}else if(lessonmatePage > 1) {
+		$('#lessonmatelist').append(row);
+	}
+}
+
+function loadMoreLessonmates() {
+	lessonmatePage++;
+	loadLessonmates();
 }
