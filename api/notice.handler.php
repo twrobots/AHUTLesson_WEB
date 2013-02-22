@@ -24,19 +24,13 @@ switch($_GET['act']) {
 		if(mb_strlen($content) > 500) die('1|内容过长（大于500个字符）');
 		sendPM($title, $content, $from_uxh, $to_uxh);
 		break;
-	case 'getinbox':
+	case 'getmessage':
 		$uxh = User::getUXH();
 		if(!$uxh) exit;
 		if(!isset($_GET['page']) || !is_numeric($_GET['page']))exit;
 		$page = $_GET['page'];
-		echo json_encode(getInboxMessage($uxh, $page));
-		break;
-	case 'getoutbox':
-		$uxh = User::getUXH();
-		if(!$uxh) exit;
-		if(!isset($_GET['page']) || !is_numeric($_GET['page']))exit;
-		$page = $_GET['page'];
-		echo json_encode(getOutboxMessage($uxh, $page));
+		echo json_encode(getMessage($uxh, $page));
+		markMessageAsRead($uxh);
 		break;
 	case 'deletemessage':
 		$uxh = User::getUXH();
@@ -44,13 +38,6 @@ switch($_GET['act']) {
 		if(!isset($_GET['mid']) || !is_numeric($_GET['mid']))exit;
 		deleteMessageByMid($_GET['mid'], $uxh);
 		break;
-	case 'markmessageasread':
-		$uxh = User::getUXH();
-		if(!$uxh) die('1|你还没有登录!');
-		if(!isset($_GET['mid']) || !is_numeric($_GET['mid']))exit;
-		markMessageAsRead($_GET['mid'], $uxh);
-		break;
-		
 	//notice
 	case 'getnotice':
 		$uxh = User::getUXH();

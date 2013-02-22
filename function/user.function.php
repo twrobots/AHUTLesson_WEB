@@ -34,14 +34,9 @@ function updateUnreadMessageCount($uxh) {
 	DB::query("UPDATE ahut_user SET unread_message = (SELECT count(*) FROM ahut_message WHERE to_uxh = '$uxh' AND `read` = 0) WHERE uxh = '$uxh'");
 }
 
-function getInboxMessage($uxh, $page) {
+function getMessage($uxh, $page) {
 	$start = ($page - 1) * MESSAGES_PER_PAGE;
 	return DB::getData("SELECT m.*,u.uname,u.has_avatar FROM ahut_message m,ahut_user u WHERE to_uxh = '$uxh' AND m.from_uxh = u.uxh ORDER BY post_time DESC LIMIT $start,".MESSAGES_PER_PAGE);
-}
-
-function getOutboxMessage($uxh, $page) {
-	$start = ($page - 1) * MESSAGES_PER_PAGE;
-	return DB::getData("SELECT m.*,u.uname,u.has_avatar FROM ahut_message m,ahut_user u WHERE from_uxh = '$uxh' AND m.to_uxh = u.uxh ORDER BY post_time DESC LIMIT $start,".MESSAGES_PER_PAGE);	
 }
 
 function deleteMessageByMid($mid, $uxh) {
@@ -49,9 +44,9 @@ function deleteMessageByMid($mid, $uxh) {
 	updateUnreadMessageCount($uxh);
 }
 
-function markMessageAsRead($mid, $uxh) {
-	DB::query("UPDATE ahut_message SET `read` = 1 WHERE to_uxh = '$uxh' AND mid = '$mid'");
-	updateUnreadMessageCount($uxh);
+function markMessageAsRead($uxh) {
+	DB::query("UPDATE ahut_message SET `read` = 1 WHERE to_uxh = '$uxh'");
+	DB::query("UPDATE ahut_user SET unread_message = 0 WHERE uxh = '$uxh'");
 }
 
 //Notice
