@@ -19,9 +19,14 @@ switch($_GET['act']) {
 		if(mb_strlen($signature) > 255) die('1|内容过长（大于255个字符）');
 		echo User::setSignature($signature);
 		break;
-	case 'getuserinfo':
+	case 'getloginuserinfo':
 		$uinfo = User::getUserInfo();
 		if(!$uinfo) die('1|你还没有登录!');
 		echo json_encode($uinfo);
+		break;
+	case 'getuserinfo':
+		$uxh = $_GET['uxh'];
+		if(!isValidXH($uxh)) die('1|学号错误');
+		echo json_encode(getUserInfoByXH($uxh));
 		break;
 }

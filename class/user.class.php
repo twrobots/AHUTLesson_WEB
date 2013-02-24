@@ -50,7 +50,7 @@ class User {
 		if(self::$loadedInfo) {
 			return self::$uinfo;
 		}else if(self::isLoggedIn()){
-			self::$uinfo = getUserInfoByXH(self::$uxh);
+			self::$uinfo = getLoginUserInfoByXH(self::$uxh);
 			self::$loadedInfo = true;
 			return self::$uinfo;
 		}else return false;

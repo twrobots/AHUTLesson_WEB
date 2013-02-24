@@ -160,7 +160,7 @@ function showLessonmates(lessonmates) {
 	for(var i = 0; i < lessonmates.length; i++){
 		var lessonmate = lessonmates[i];
 		var registered = (lessonmate['registered']==1);
-		row += (registered) ? '<div class="lessonmatelist_wrap_registered bdl bdr bdb" title="TA也在课友网哦，点击进入TA的主页">' : '<div class="lessonmatelist_wrap bdl bdr bdb" title="该用户未在课友网注册">';
+		row += (registered) ? '<div class="lessonmatelist_wrap_registered bdl bdr bdb" title="TA也在课友网哦，点击进入TA的主页">' : '<div class="lessonmatelist_wrap bdl bdr bdb" title="TA还没有在课友网注册，快邀请TA吧！">';
 		if(registered) {
 			row += '<span class="fl"><a target="_blank" href="user.php?uxh=' + lessonmate['xh'] + '"><img src="' + getAvatarURL(lessonmate['xh'], (lessonmate['has_avatar'] == 1)) + '" style="max-width:35px;max-height:35px;"></a></span>';
 			row += '<span class="fl"><a target="_blank" href="user.php?uxh=' + lessonmate['xh'] + '">' + lessonmate['xm'] + '</a></span>';

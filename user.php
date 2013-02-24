@@ -26,7 +26,7 @@ echo <<<EOD
 			<button class="button" onclick="showPmdiv('$uxh', '{$uinfo['uname']}')">发消息</button><br />
 			<a target="_blank" class="button" href="timetable.php?uxh=$uxh">查看TA的课表</a>
 		</div>
-		<div class="detail bdt">班级:{$uinfo['bj']}<br />专业:{$uinfo['zy']}<br />学院:{$uinfo['xy']}<br />所在级:{$uinfo['rx']}</div>
+		<div class="detail bdt">性别:{$uinfo['xb']}<br />班级:{$uinfo['bj']}<br />专业:{$uinfo['zy']}<br />学院:{$uinfo['xy']}<br />所在级:{$uinfo['rx']}</div>
 		<div class="logintime">注册时间:{$uinfo['register_time']}<br />最后登录:{$uinfo['lastlogin_time']}</div>
 EOD;
 ?>

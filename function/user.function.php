@@ -9,8 +9,12 @@ function isRealXH($xh) {
 	}
 }
 
+function getLoginUserInfoByXH($uxh) { //must be registered uxh
+	return DB::getFirstRow("SELECT u.*,p.* FROM ahut_user u,ahut_profile p WHERE u.uxh = p.xh AND u.uxh = '$uxh'");
+}
+
 function getUserInfoByXH($uxh) { //must be registered uxh
-	return DB::getFirstRow("SELECT a.*,b.* FROM ahut_user a,ahut_profile b WHERE a.uxh = b.xh AND a.uxh = '$uxh'");
+	return DB::getFirstRow("SELECT u.uxh, u.uname, u.register_time, u.lastlogin_time, u.is_admin, u.signature, u.has_avatar, p.* FROM ahut_user u,ahut_profile p WHERE u.uxh = p.xh AND u.uxh = '$uxh'");
 }
 
 function getProfileByXH($xh) { //can be not-registerd uxh

@@ -4,6 +4,8 @@ require 'include.php';
 $uxh = User::getUXH();
 if($uxh == false) die('1|你还没有登录');
 
+if(!isset($_FILES["avatar_file"])) die('1|没有上传头像文件');
+
 if ($_FILES["avatar_file"]["error"] > 0) {
 	die("1|上传失败！错误号:" . $_FILES["avatar_file"]["error"]);
 }
