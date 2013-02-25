@@ -17,7 +17,7 @@ if(!defined('IN_SAE')) {
 	define('DB_NAME', SAE_MYSQL_DB);
 }
 
-define('USE_MIN_JS', true);
+define('USE_MIN_JS', false);
 
 //table
 define('LESSON_TABLE', 'lesson2013');

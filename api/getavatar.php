@@ -1,4 +1,5 @@
 <?php
+require '../include/config.inc.php';
 $uxh = $_GET['uxh'];
 $refresh = false;
 if(isset($_GET['refresh']))$refresh = true;

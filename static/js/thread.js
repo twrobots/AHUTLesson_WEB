@@ -87,7 +87,7 @@ function jumpToThreadPage(page) {
 }
 
 function refreshThread() {
-	loadPage(currentPage);
+	loadThreadPage(currentPage);
 }
 
 function newPost() {

@@ -74,7 +74,7 @@ class User {
 		if(!isRealXH($uxh)) return '1|该学号不存在，如有疑问请联系renzhen999@gmail.com';
 		$date = date('Y-m-d H:i:s');
 		$uinfo = getProfileByXH($uxh);
-		DB::query("INSERT INTO ahut_user (uxh, uname, bj, password, register_time, lastlogin_time) VALUES ('$xh', '{$uinfo['xm']}', '{$uinfo['bj']}', '$password', '$date', '$date')");
+		DB::query("INSERT INTO ahut_user (uxh, uname, bj, password, register_time, lastlogin_time) VALUES ('$uxh', '{$uinfo['xm']}', '{$uinfo['bj']}', '$password', '$date', '$date')");
 		DB::query("UPDATE ahut_profile SET registered=1 WHERE xh='$uxh'");
 		return '0|'.self::genCookie($uxh, $password);
 	}
