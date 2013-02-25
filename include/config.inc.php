@@ -17,7 +17,7 @@ if(!defined('IN_SAE')) {
 	define('DB_NAME', SAE_MYSQL_DB);
 }
 
-define('USE_MIN_JS', false);
+define('USE_MIN_JS', true);
 
 //table
 define('LESSON_TABLE', 'lesson2013');
@@ -27,8 +27,6 @@ define('LESSONMATES_PER_PAGE', 50);
 define('POSTS_PER_PAGE', 20);
 define('MESSAGES_PER_PAGE', 15);
 define('NOTICES_PER_PAGE', 15);
-
-$current_timetable_setting = array('year' => 2013, 'month' => 2, 'day' => 27);
 
 date_default_timezone_set("Asia/Shanghai"); 
 ?>

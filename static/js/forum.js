@@ -1,4 +1,4 @@
-function loadPage(page){
+function loadForumPage(page){
 	$.getJSON('api/getforum.php?page=' + page, function(ret) {
 		totalThreads = ret[0];
 		currentPage = page;
@@ -29,7 +29,7 @@ function showForum(threads){
 		row += '<div class="title"><a target="_blank" href="thread.php?tid=' + thread['tid'] + '">' + thread['subject'] + '</a></div>';
 		row += '<div class="author"><a target="_blank" href="user.php?uxh=' + thread['uxh'] + '">' + thread['uname'] + '</a></div>';
 		row += '<div class="lastreply">' + timestr + ' ' + '<a target="_blank" href="user.php?uxh=' + thread['lastreply_uxh'] + '">' + thread['lastreply_uname'] + '</a></div>';
-		if(is_admin) row += '<div class="admin"><a class="clickable" onclick="deleteThread(' + thread['tid'] + ');">删除</a></div>';	
+		if(is_admin) row += '<div class="admin"><a class="clickable" onclick="deleteForumThread(' + thread['tid'] + ');">删除</a></div>';	
 		row += '<div class="clear"></div>';		
 		row += '</div>';
 		
@@ -42,8 +42,8 @@ function showForum(threads){
 	var endPage = totalPages;
 	var hasMore = false;
 	if(currentPage > 5) {
-		pager += '<span class="button" onclick="jumpToPage(1)">首页</span>';
-		pager += '<span class="button" onclick="jumpToPage(' + (currentPage - 1) + ')">上一页</span>';
+		pager += '<span class="button" onclick="jumpToForumPage(1)">首页</span>';
+		pager += '<span class="button" onclick="jumpToForumPage(' + (currentPage - 1) + ')">上一页</span>';
 		startPage = currentPage - 4;
 	}
 	if((endPage - startPage) > 9) {
@@ -52,20 +52,20 @@ function showForum(threads){
 	}
 	for(var i = startPage; i <= endPage; i++){
 		if(i != currentPage) {
-			pager += '<span class="button" onclick="jumpToPage(' + i + ')">' + i + '</span>';
+			pager += '<span class="button" onclick="jumpToForumPage(' + i + ')">' + i + '</span>';
 		}else{
 			pager += '<span class="normal" >' + i + '</span>';
 		}
 	}
 	if(hasMore) {
-		pager += '<span class="button" onclick="jumpToPage(' + (currentPage + 1) + ')">下一页</span>';
-		pager += '<span class="button" onclick="jumpToPage(' + totalPages + ')">尾页</span>';
+		pager += '<span class="button" onclick="jumpToForumPage(' + (currentPage + 1) + ')">下一页</span>';
+		pager += '<span class="button" onclick="jumpToForumPage(' + totalPages + ')">尾页</span>';
 	}
 	$('#pager').html(pager);
 	$('#threadsnum').html('共' + totalPages + '页 共有主题数:' + (totalThreads));
 }
 
-function jumpToPage(page) {
+function jumpToForumPage(page) {
 	$.getJSON('api/getforum.php?lid=' + lid + '&page=' + page, function(ret) {
 		totalThreads = ret[0];
 		currentPage = page;
@@ -78,7 +78,7 @@ function refreshForum(){
 	loadPage(currentPage);
 }
 
-function deleteThread(tid) {
+function deleteForumThread(tid) {
 	if(!confirm('确定删除帖子？（ID:' + tid + '）')) return;
 	$.get('api/thread.handler.php?act=delete&tid=' + tid, function(ret) {
 		if(ret.lastIndexOf('0', 0) == 0) {

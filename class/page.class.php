@@ -42,17 +42,22 @@ class Page {
 <head>
 <meta charset="UTF-8" />
 <title>{$this->title}</title>
-<link rel="stylesheet" type="text/css" href="static/css/common.css" media="all" />
-<script type="text/javascript" src="static/js/jquery-1.7.2.min.js"></script>
+EOD;
+		echo '<link rel="stylesheet" type="text/css" href="'.SERVER_URL.'static/css/common.css" media="all" />';
+		echo '<script type="text/javascript" src="'.SERVER_URL.'static/js/jquery-1.7.2.min.js"></script>';
+		if(USE_MIN_JS) {
+			echo '<script type="text/javascript" src="'.SERVER_URL.'static/js/ahutlesson.min.js"></script>';
+		}else{
+			echo <<<EOD
 <script type="text/javascript" src="static/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="static/js/jquery.scrollto.js"></script>
 <script type="text/javascript" src="static/js/common.js"></script>
-
 EOD;
-		foreach($this->scripts as $script) {
-			echo <<<EOD
+			foreach($this->scripts as $script) {
+				echo <<<EOD
 <script type="text/javascript" src="static/js/$script.js"></script>
 EOD;
+			}
 		}
 		
 echo <<<EOD

@@ -28,13 +28,13 @@ var lessonmatePage = 0;
 var lessonmatesPerPage= <?php echo LESSONMATES_PER_PAGE;?>;
 <?php
 echo "var lid = '$lid';";
-echo "loadPage($viewpage);";
+echo "loadLessonPage($viewpage);";
 $uinfo = User::getUserInfo();
 echo ($uinfo != false && $uinfo['is_admin'] == 1) ? "var is_admin = true;" : "var is_admin = false;";
 ?>
 </script>
 <div class="toolbar">
-	<span class="button" onclick="refreshForum()">刷新帖子</span>
+	<span class="button" onclick="refreshLessonForum()">刷新帖子</span>
 	<span class="button" onclick="showOrHideLessonmate()">显示/隐藏课友</span>
 </div>
 <div class="navtitle">

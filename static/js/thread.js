@@ -1,4 +1,4 @@
-function loadPage(page, topid){
+function loadThreadPage(page, topid){
 	$.getJSON('api/post.handler.php?act=get&tid=' + tid + '&page=' + page, function(ret) {
 		totalPosts = ret[0];
 		currentPage = page;
@@ -54,8 +54,8 @@ function showThread(posts){
 	var endPage = totalPages;
 	var hasMore = false;
 	if(currentPage > 5) {
-		pager += '<span class="button" onclick="jumpToPage(1)">首页</span>';
-		pager += '<span class="button" onclick="jumpToPage(' + (currentPage - 1) + ')">上一页</span>';
+		pager += '<span class="button" onclick="jumpToThreadPage(1)">首页</span>';
+		pager += '<span class="button" onclick="jumpToThreadPage(' + (currentPage - 1) + ')">上一页</span>';
 		startPage = currentPage - 4;
 	}
 	if((endPage - startPage) > 9) {
@@ -64,20 +64,20 @@ function showThread(posts){
 	}
 	for(var i = startPage; i <= endPage; i++){
 		if(i != currentPage) {
-			pager += '<span class="button" onclick="jumpToPage(' + i + ')">' + i + '</span>';
+			pager += '<span class="button" onclick="jumpToThreadPage(' + i + ')">' + i + '</span>';
 		}else{
 			pager += '<span class="normal" >' + i + '</span>';
 		}
 	}
 	if(hasMore) {
-		pager += '<span class="button" onclick="jumpToPage(' + (currentPage + 1) + ')">下一页</span>';
-		pager += '<span class="button" onclick="jumpToPage(' + totalPages + ')">尾页</span>';
+		pager += '<span class="button" onclick="jumpToThreadPage(' + (currentPage + 1) + ')">下一页</span>';
+		pager += '<span class="button" onclick="jumpToThreadPage(' + totalPages + ')">尾页</span>';
 	}
 	$('#pager').html(pager);
 	$('#postsnum').html('共' + totalPages + '页 回复帖:' + (totalPosts - 1));
 }
 
-function jumpToPage(page) {
+function jumpToThreadPage(page) {
 	$.getJSON('api/post.handler.php?act=get&tid=' + tid + '&page=' + page, function(ret) {
 		totalPosts = ret[0];
 		currentPage = page;

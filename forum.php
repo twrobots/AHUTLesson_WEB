@@ -21,7 +21,7 @@ var currentPage = 1;
 <?php
 $uinfo = User::getUserInfo();
 echo ($uinfo != false && $uinfo['is_admin'] == 1) ? "var is_admin = true;" : "var is_admin = false;";
-echo "loadPage($viewpage);";
+echo "loadForumPage($viewpage);";
 ?>
 </script>
 <div class="toolbar">

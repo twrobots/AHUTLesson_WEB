@@ -6,7 +6,7 @@ function loadMessage() {
 
 function showMessage(messages) {
 	var row = '';
-	if(messages.length == 0 && inboxPage == 1) {
+	if(messages.length == 0 && messagePage == 1) {
 		row = '<div class="empty_message">收件箱为空</div>';
 	}
 	for(var i = 0; i < messages.length; i++){
@@ -31,7 +31,7 @@ function showMessage(messages) {
 	}
 	
 	if(messages.length == messagesPerPage) {
-		$('#pager').html('<span class="button" onclick="loadMoreInbox();">加载更多</span>');
+		$('#pager').html('<span class="button" onclick="loadMoreMessage();">加载更多</span>');
 	}else{
 		$('#pager').html('');
 	}
@@ -54,7 +54,7 @@ function toggleMessage(mid) {
 	$('#mid' + mid + ' .content').toggle();
 }
 
-function loadMore() {
+function loadMoreMessage() {
 	messagePage++;
 	loadMessage();
 }
@@ -62,6 +62,7 @@ function loadMore() {
 function deleteMessage(mid) {
 	if(!confirm('确定删除消息？')) return;
 	$.get('api/notice.handler.php?act=deletemessage&mid=' + mid, function(ret) {
+		messagePage = 1;
 		loadMessage();
 	});
 }

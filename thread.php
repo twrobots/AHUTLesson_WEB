@@ -41,9 +41,9 @@ var lid = '$lid';
 var tid = '$tid';
 EOD;
 if(empty($pid)){
-	echo "loadPage($viewpage);";	
+	echo "loadThreadPage($viewpage);";	
 }else{
-	echo "loadPage($viewpage, $pid);";
+	echo "loadThreadPage($viewpage, $pid);";
 }
 ?>
 </script>

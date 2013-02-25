@@ -1,12 +1,12 @@
-function loadPage(page){
+function loadLessonPage(page){
 	$.getJSON('api/thread.handler.php?act=get&lid=' + lid + '&page=' + page, function(ret) {
 		totalThreads = ret[0];
 		currentPage = page;
-		showForum(ret[1]);
+		showLessonForum(ret[1]);
 	});
 }
 
-function showForum(threads){
+function showLessonForum(threads){
 	var row = '';
 	if(threads.length == 0) {
 		row = '<div class="empty_message">还没有人发帖，快来成为第一个发帖的吧！</div>';
@@ -36,7 +36,7 @@ function showForum(threads){
 		}
 		row += '<div class="author"><a target="_blank" href="user.php?uxh=' + thread['uxh'] + '">' + thread['uname'] + '</a></div>';
 		row += '<div class="lastreply">' + timestr + ' ' + '<a target="_blank" href="user.php?uxh=' + thread['lastreply_uxh'] + '">' + thread['lastreply_uname'] + '</a></div>';
-		if(is_admin) row += '<div class="admin"><a class="clickable" onclick="deleteThread(' + thread['tid'] + ');">删除</a></div>';	
+		if(is_admin) row += '<div class="admin"><a class="clickable" onclick="deleteLessonThread(' + thread['tid'] + ');">删除</a></div>';	
 		row += '<div class="clear"></div>';	
 		row += '</div>';
 	}
@@ -47,8 +47,8 @@ function showForum(threads){
 	var endPage = totalPages;
 	var hasMore = false;
 	if(currentPage > 5) {
-		pager += '<span class="button" onclick="jumpToPage(1)">首页</span>';
-		pager += '<span class="button" onclick="jumpToPage(' + (currentPage - 1) + ')">上一页</span>';
+		pager += '<span class="button" onclick="jumpToLessonPage(1)">首页</span>';
+		pager += '<span class="button" onclick="jumpToLessonPage(' + (currentPage - 1) + ')">上一页</span>';
 		startPage = currentPage - 4;
 	}
 	if((endPage - startPage) > 9) {
@@ -57,30 +57,30 @@ function showForum(threads){
 	}
 	for(var i = startPage; i <= endPage; i++){
 		if(i != currentPage) {
-			pager += '<span class="button" onclick="jumpToPage(' + i + ')">' + i + '</span>';
+			pager += '<span class="button" onclick="jumpToLessonPage(' + i + ')">' + i + '</span>';
 		}else{
 			pager += '<span class="normal" >' + i + '</span>';
 		}
 	}
 	if(hasMore) {
-		pager += '<span class="button" onclick="jumpToPage(' + (currentPage + 1) + ')">下一页</span>';
-		pager += '<span class="button" onclick="jumpToPage(' + totalPages + ')">尾页</span>';
+		pager += '<span class="button" onclick="jumpToLessonPage(' + (currentPage + 1) + ')">下一页</span>';
+		pager += '<span class="button" onclick="jumpToLessonPage(' + totalPages + ')">尾页</span>';
 	}
 	$('#pager').html(pager);
 	$('#threadsnum').html('共' + totalPages + '页 共有主题数:' + (totalThreads));
 }
 
-function jumpToPage(page) {
+function jumpToLessonPage(page) {
 	$.getJSON('api/thread.handler.php?act=get&lid=' + lid + '&page=' + page, function(ret) {
 		totalThreads = ret[0];
 		currentPage = page;
-		showForum(ret[1]);
+		showLessonForum(ret[1]);
 		$('#threadlist').ScrollTo();
 	});
 }
 
-function refreshForum(){
-	loadPage(currentPage);
+function refreshLessonForum(){
+	loadLessonPage(currentPage);
 }
 
 function newThread() {
@@ -121,11 +121,11 @@ function newThread() {
 	});
 }
 
-function deleteThread(tid) {
+function deleteLessonThread(tid) {
 	if(!confirm('确定删除帖子？（ID:' + tid + '）')) return;
 	$.get('api/thread.handler.php?act=delete&tid=' + tid, function(ret) {
 		if(ret.lastIndexOf('0', 0) == 0) {
-			refreshForum();
+			refreshLessonForum();
 		}else if(ret.lastIndexOf('1', 0) == 0) {
 			alert(ret.substr(2));
 		}
