@@ -1,8 +1,8 @@
 function loadLessonPage(page){
 	$.getJSON('api/thread.handler.php?act=get&lid=' + lid + '&page=' + page, function(ret) {
-		totalThreads = ret[0];
+		totalThreads = ret[1];
 		currentPage = page;
-		showLessonForum(ret[1]);
+		showLessonForum(ret[0]);
 	});
 }
 

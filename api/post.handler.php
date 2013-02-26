@@ -10,7 +10,7 @@ switch($_GET['act']) {
 		addThreadViewCount($tid);
 		$posts = getPosts($tid, $page);
 		$total = getTotalPostsNum($tid);
-		$return = array($total, $posts);
+		$return = array($posts, $total);
 		echo json_encode($return);
 		break;
 	case 'new':

@@ -1,8 +1,8 @@
 function loadThreadPage(page, topid){
 	$.getJSON('api/post.handler.php?act=get&tid=' + tid + '&page=' + page, function(ret) {
-		totalPosts = ret[0];
+		totalPosts = ret[1];
 		currentPage = page;
-		showThread(ret[1]);
+		showThread(ret[0]);
 		topid = typeof topid !== 'undefined' ? topid : false;
 		if(topid != false)scrollToPost(topid);
 	});
@@ -26,8 +26,8 @@ function showThread(posts){
 		postlist += '</div>';
 		
 		postlist += '<div class="post_content_main">';
-		postlist += '<div class="post_content_text">' + post['content'] + '</div>';
-		
+		postlist += '<pre class="post_content_text">' + post['content'] + '</pre>';
+
 		postlist += '<div class="post_content_info">';
 		if(is_admin) postlist += '<span class="admin"><a class="clickable" onclick="deletePost(' + post['pid'] + ');">删除</a></span>';	
 		
@@ -40,9 +40,8 @@ function showThread(posts){
 		postlist += '</div>';
 		
 		postlist += '</div>';
-		
-		postlist += '<div class="clear">';
-		postlist += '</div>';
+
+		postlist += '<div class="clear"></div>';
 		
 		postlist += '</div>';
 		

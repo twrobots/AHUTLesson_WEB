@@ -1,4 +1,4 @@
-body, a, button, textarea, input{ text-decoration: none; font-family: "微软雅黑","黑体"; font-size: 12px; color: #333; margin: 0; }
+body, a, button, textarea, input, pre, span { text-decoration: none; font-family: "微软雅黑","黑体"; font-size: 12px; color: #333; margin: 0; }
 
 a:hover { color: #036A93; }
 a:active { color: #A83535; }
@@ -162,6 +162,7 @@ img { border: none; }
 .post_author_icon img { max-height: 92px; max-width: 92px; }
 .post_author_name { margin-top: 6px; }
 .post_content_main { position: relative; width: 710px; float: left; padding: 20px 15px 7px; line-height: 24px; font-size: 14px; word-wrap: break-word;  border-left: 1px solid #CDCDCD; min-height: 200px; background-color:#FFF; }
+.post_content_text { font-size: 14px; }
 .post_content_info { position: absolute; bottom: 12px; right: 15px; }
 .post_content_info span { margin-right: 5px; color: #999; font-size: 12px; }
 .postpager { border-left: 1px solid #CDCDCD; border-right: 1px solid #CDCDCD; border-bottom: 1px solid #CDCDCD; }

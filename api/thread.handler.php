@@ -9,7 +9,7 @@ switch($_GET['act']) {
 		$page = $_GET['page'];
 		$threads = getThreads($lid, $page);
 		$total = getTotalThreadsNum($lid);
-		$return = array($total, $threads);
+		$return = array($threads, $total);
 		echo json_encode($return);
 		break;
 	case 'new':
