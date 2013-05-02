@@ -1,20 +1,41 @@
 <?php
+function isReplyingToReply($content) {
+	if(strpos($content, '回复') != 0) return false;
+	$floor_end = strpos($content, '楼');
+	if(empty($floor_end)) return false;
+	$floor_str = substr($content, 6, $floor_end - 6);
+	if(!is_numeric($floor_str)) return false;
+	return $floor_str;
+}
+
+function getPostByFloor($tid, $floor) {
+	return DB::getFirstRow("SELECT * FROM ahut_post WHERE tid = '$tid' AND floor = '$floor'");
+}
+
 function newPost($content, $tid, $uxh, $from_client) {
 	$date = date('Y-m-d H:i:s');
 	$uinfo = User::getUserInfo();
-	if($uinfo == false) return '1|获取用户信息出错';
+	if($uinfo == false) reterror('获取用户信息出错');
 	$tinfo = DB::getFirstRow("SELECT * FROM ahut_thread WHERE tid = '$tid'");
-	if($tinfo == false) return '1|获取帖子信息出错';
+	if($tinfo == false) reterror('获取帖子信息出错');
 	$floor = DB::getFirstGrid("SELECT COUNT(*) FROM ahut_post WHERE tid = '$tid'");
 	$floor++; 
 	DB::query("INSERT INTO ahut_post (tid, content, uxh, floor, post_time, from_client) VALUES ('$tid', '$content', '$uxh', '$floor', '$date', '$from_client')");	
 	$pid = mysql_insert_id();
 	DB::query("UPDATE ahut_thread SET lastreply_time='$date',lastreply_uxh='$uxh',lastreply_uname='{$uinfo['uname']}' WHERE tid=$tid");
 	updateThreadReplyCount($tid);
-	if($uxh != $tinfo['uxh']) {
-		sendReplyNotice($tid, $pid, $tinfo['subject'], $uxh, $tinfo['uxh']);
+	$touxh = $tinfo['uxh'];
+	if($uxh != $touxh) {
+		sendReplyNotice($tid, $pid, $tinfo['subject'], $uxh, $touxh);
 	}
-	return '0|'.$pid;
+	$replyfloor = isReplyingToReply($content);
+	if($replyfloor !== false) {
+		$postToReply = getPostByFloor($tid, $replyfloor);
+		if($uxh != $postToReply['uxh']) {
+			sendReplyNotice($tid, $pid, $tinfo['subject'], $uxh, $postToReply['uxh']);
+		}
+	}
+	retdata($pid);
 }
 	
 function getPosts($tid, $page) {
@@ -36,7 +57,6 @@ function getPostInfo($tid) {
 }
 
 function deletePostByPid($pid) {
-	if(DB::query("DELETE FROM ahut_post WHERE pid = '$pid'"))
-		echo '0';
+	DB::query("DELETE FROM ahut_post WHERE pid = '$pid'");
 }
 ?>

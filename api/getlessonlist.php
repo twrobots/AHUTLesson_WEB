@@ -5,5 +5,10 @@ $xh = $_GET['xh'];
 if(!isValidXH($xh))exit;
 
 $lessons = getLessonListByXH($xh);
-echo json_encode($lessons);
+$uinfo = getProfileByXH($xh);
+$metadata = array(
+	'xm' => $uinfo['xm'],
+	'build' => LESSON_TABLE_BUILD
+);
+retdata($lessons, $metadata);
 ?>

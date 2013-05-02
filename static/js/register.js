@@ -18,17 +18,12 @@ function checkRegisterForm() {
 	
 	$('#submit_button').html('提交中...');
 	$('#submit_button').attr('disabled', true);
-	$.post("api/user.handler.php?act=register", { x: xh, p: password })
-	.done(function(ret) {
-		if(ret.lastIndexOf('0', 0) == 0) {
-			$.cookie('ck', ret.substr(2));
-			window.location.href = 'index.php';
-		}else{
-			if(ret.lastIndexOf('1', 0) == 0) {
-				alert(ret.substr(2));
-			}
-			$('#submit_button').html('提交');
-			$('#submit_button').attr('disabled', false);
-		}
+	apiPost("api/user.handler.php?act=register", { x: xh, p: password }
+	, function(data) {
+		$.cookie('ck', data);
+		window.location.href = 'index.php';
+	}, function() {
+		$('#submit_button').html('提交');
+		$('#submit_button').attr('disabled', false);
 	});
 }

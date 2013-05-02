@@ -5,5 +5,5 @@ $current_timetable_setting = array(
 		'day' => 27, 
 		'season' => 1 //1 winter, 2 summer
 	);
-echo json_encode($current_timetable_setting);
+retdata($current_timetable_setting);
 ?>

@@ -6,7 +6,7 @@ function newThread($subject, $content, $lid, $uxh, $from_client) {
 	DB::query("INSERT INTO ahut_thread (lid, subject, uxh, uname, post_time, lastreply_time, lastreply_uxh, lastreply_uname) VALUES ('$lid', '$subject', '$uxh', '{$uinfo['uname']}', '$date', '$date', '$uxh', '{$uinfo['uname']}')");
 	$tid = mysql_insert_id();
 	DB::query("INSERT INTO ahut_post (tid, content, uxh, floor, post_time, from_client) VALUES ('$tid', '$content', '$uxh', '1', '$date', '$from_client')");
-	return '0|'.$tid;
+	retdata($tid);
 }
 
 function addThreadViewCount($tid) {
@@ -33,7 +33,6 @@ function getThreadInfo($tid) {
 function deleteThreadByTid($tid) {
 	DB::query("DELETE FROM ahut_thread WHERE tid = '$tid'");
 	DB::query("DELETE FROM ahut_post WHERE tid = '$tid'");
-	echo '0';
 }
 
 function setThreadTop($tid, $value) {

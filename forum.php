@@ -15,7 +15,7 @@ $page->displayHeader();
 ?>
 <script>
 var totalThreads = 1;
-var threadsPerPage = <?php echo THREADS_PER_PAGE;?>;
+var threadsPerPage = 1;
 var totalPages = 1;
 var currentPage = 1;
 <?php

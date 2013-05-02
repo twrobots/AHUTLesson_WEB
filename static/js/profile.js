@@ -4,13 +4,8 @@ function setSignature() {
 		alert('签名过长（大于255个字符）！');
 		return;
 	}
-	$.post("api/user.handler.php?act=setsignature", { s: signature })
-	.done(function(ret) {
-		if(ret == '0') {
-			alert('设置成功！');
-		}else if(ret.lastIndexOf('1', 0) == 0) {
-			alert(ret.substr(2));
-		}
+	apiPost("api/user.handler.php?act=setsignature", { s: signature }, function() {
+		alert('设置成功！');
 	});
 }
 
@@ -33,15 +28,14 @@ function uploadAvatar() {
 			url:'api/uploadavatar.php',
 			secureuri:false,
 			fileElementId:'avatar_file',
-			dataType: 'text',
-			success: function (result, status) {
-				if(result == 0) {
-					alert('上传成功！');
-					window.location.reload();
-				}else if(result.lastIndexOf('1', 0) == 0) {
-					alert(result.substr(2));
+			dataType: 'json',
+			success: function (ret, status) {
+				if(ret.code == 1) {
+					alert(ret.msg);
+				}else if(ret.code == 0) {
+					alert('上传成功!');
 				}
 			}
 		}
-	)
+	);
 }

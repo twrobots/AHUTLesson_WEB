@@ -1,6 +1,61 @@
 var IN_SAE = false;
 var SERVER_URL = (IN_SAE) ? "http://ahutlesson.sinaapp.com" : "http://localhost/lesson/";
 
+function apiGet(url, callback) {
+	$.getJSON(url, function(ret) {
+		if(ret.code == 1) {
+			alert(ret.msg);
+		}else if(ret.code == 0) {
+			if(typeof ret.data != 'undefined') {
+				if(typeof ret.metadata != 'undefined') {
+					callback(ret.data, ret.metadata);
+				}else{
+					callback(ret.data);
+				}
+			}else{
+				callback();
+			}
+		}
+	});
+}
+
+function apiPost(url, data, callback) {
+	$.post(url, data, function(ret) {
+		if(ret.code == 1) {
+			alert(ret.msg);
+		}else if(ret.code == 0) {
+			if(typeof ret.data != 'undefined') {
+				if(typeof ret.metadata != 'undefined') {
+					callback(ret.data, ret.metadata);
+				}else{
+					callback(ret.data);
+				}
+			}else{
+				callback();
+			}
+		}
+	}, "json");
+}
+
+function apiPost(url, data, callback, error) {
+	$.post(url, data, function(ret) {
+		if(ret.code == 1) {
+			alert(ret.msg);
+			error();
+		}else if(ret.code == 0) {
+			if(typeof ret.data != 'undefined') {
+				if(typeof ret.metadata != 'undefined') {
+					callback(ret.data, ret.metadata);
+				}else{
+					callback(ret.data);
+				}
+			}else{
+				callback();
+			}
+		}
+	}, "json");
+}
+
 function getAvatarURL(uxh, hasAvatar) {
 	if(!hasAvatar) {
 		return "static/img/noavatar.jpg";
@@ -20,18 +75,13 @@ function login() {
 	var xh = $('#login_xh').val();
 	var password = $('#login_password').val();
 	var rem = $('#save_cookie').attr("checked");
-	$.post('api/user.handler.php?act=login', { x: xh, p: password })
-	.done(function(ret) {
-		if(ret.lastIndexOf('0', 0) == 0) {
-			if(rem) {
-				$.cookie('ck', ret.substr(2), { expires: 30 });
-			}else{
-				$.cookie('ck', ret.substr(2));
-			}
-			window.location.reload();
-		}else if(ret.lastIndexOf('1', 0) == 0) {
-			alert(ret.substr(2));
+	apiPost('api/user.handler.php?act=login', { x: xh, p: password }, function(data) {
+		if(rem) {
+			$.cookie('ck', data, { expires: 30 });
+		}else{
+			$.cookie('ck', data);
 		}
+		window.location.reload();
 	});
 }
 
@@ -78,9 +128,9 @@ function isInt(n) {
 }
 
 function checkUnreadMessage() {
-	$.getJSON('api/notice.handler.php?act=getunreadcount&uxh=' + logged_uxh, function(ret) {
-		unreadMessageCount = ret[0];
-		unreadNoticeCount = ret[1];
+	apiGet('api/notice.handler.php?act=getunreadcount&uxh=' + logged_uxh, function(data) {
+		unreadMessageCount = data[0];
+		unreadNoticeCount = data[1];
 		refreshUnreadCount();
 	});
 }
@@ -129,8 +179,7 @@ function sendpm() {
 		alert('标题或内容为空！');
 		return;
 	}
-	$.post("api/notice.handler.php?act=sendmessage", { u: xh, t: title, c: content })
-	.done(function(result) {
+	apiPost("api/notice.handler.php?act=sendmessage", { u: xh, t: title, c: content }, function() {
 		$('#pm_title').val('');
 		$('#pm_content').val('');
 		$('.pmdiv').fadeOut(500);

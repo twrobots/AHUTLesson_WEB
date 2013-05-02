@@ -19,6 +19,7 @@ $page->displayHeader();
 ?>
 <script>
 var xh = '<?php echo $uxh;?>';
+var xm = '';
 loadTimetable();
 </script>
 <div class="toolbar">

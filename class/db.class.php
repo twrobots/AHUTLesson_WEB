@@ -24,7 +24,7 @@ class DB {
 		$data = array();
 		$result = mysql_query($sql);
 		if($result === false) return $data;
-		while($row = mysql_fetch_assoc($result)) {
+		while(($row = mysql_fetch_assoc($result)) !== false) {
 			array_push($data, $row);
 		}
 		return $data;
@@ -44,7 +44,7 @@ class DB {
 		$data = array();
 		$result = mysql_query($sql);
 		if($result === false) return $data;
-		while($row = mysql_fetch_row($result)) {
+		while(($row = mysql_fetch_row($result)) !== false) {
 			array_push($data, $row);
 		}
 		return $data;

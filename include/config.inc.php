@@ -21,6 +21,8 @@ define('USE_MIN_JS', false);
 
 //table
 define('LESSON_TABLE', 'lesson2013');
+define('LESSON_TABLE_BUILD', '20130427');
+
 
 define('THREADS_PER_PAGE', 50);
 define('LESSONMATES_PER_PAGE', 50);

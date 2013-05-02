@@ -9,7 +9,7 @@ $page->displayHeader();
 ?>
 <script>
 var messagePage = 1;
-var messagesPerPage = <?php echo MESSAGES_PER_PAGE;?>;
+var messagesPerPage = 1;
 loadMessage();
 </script>
 <div class="nav-tab">

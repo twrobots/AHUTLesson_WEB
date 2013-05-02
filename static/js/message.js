@@ -1,6 +1,7 @@
 function loadMessage() {
-	$.getJSON('api/notice.handler.php?act=getmessage&page=' + messagePage, function(ret) {
-		showMessage(ret);
+	apiGet('api/notice.handler.php?act=getmessage&page=' + messagePage, function(data, metadata) {
+		messagesPerPage = metadata.messagesPerPage;
+		showMessage(data);
 	});
 }
 
@@ -61,7 +62,7 @@ function loadMoreMessage() {
 
 function deleteMessage(mid) {
 	if(!confirm('确定删除消息？')) return;
-	$.get('api/notice.handler.php?act=deletemessage&mid=' + mid, function(ret) {
+	apiGet('api/notice.handler.php?act=deletemessage&mid=' + mid, function(ret) {
 		messagePage = 1;
 		loadMessage();
 	});

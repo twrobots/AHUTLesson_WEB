@@ -1,8 +1,9 @@
 function loadLessonPage(page){
-	$.getJSON('api/thread.handler.php?act=get&lid=' + lid + '&page=' + page, function(ret) {
-		totalThreads = ret[1];
+	apiGet('api/thread.handler.php?act=get&lid=' + lid + '&page=' + page, function(data, metadata) {
+		totalThreads = metadata.total;
+		threadsPerPage = metadata.threadsPerPage;
 		currentPage = page;
-		showLessonForum(ret[0]);
+		showLessonForum(data);
 	});
 }
 
@@ -71,10 +72,10 @@ function showLessonForum(threads){
 }
 
 function jumpToLessonPage(page) {
-	$.getJSON('api/thread.handler.php?act=get&lid=' + lid + '&page=' + page, function(ret) {
-		totalThreads = ret[0];
+	apiGet('api/thread.handler.php?act=get&lid=' + lid + '&page=' + page, function(data, metadata) {
+		totalThreads = metadata.total;
+		threadsPerPage = metadata.threadsPerPage;
 		currentPage = page;
-		showLessonForum(ret[1]);
 		$('#threadlist').ScrollTo();
 	});
 }
@@ -106,29 +107,18 @@ function newThread() {
 	
 	$('#submit_button').html('提交中...');
 	$('#submit_button').attr('disabled', true);
-	$.post("api/thread.handler.php?act=new", { s:subject, c: content, l: lid })
-	.done(function(ret) {
-		if(ret.lastIndexOf('0', 0) == 0) { //begin with 0
-			var newtid = ret.substr(2);
+	apiPost("api/thread.handler.php?act=new", { s:subject, c: content, l: lid }, function(newtid) {
 			window.location.href = 'thread.php?tid=' + newtid;
-		}else{
-			if(ret.lastIndexOf('1', 0) == 0){
-				alert(ret.substr(2));
-			}
-			$('#submit_button').html('提交');
-			$('#submit_button').attr('disabled', false);
-		}
+	}, function() {
+		$('#submit_button').html('提交');
+		$('#submit_button').attr('disabled', false);
 	});
 }
 
 function deleteLessonThread(tid) {
 	if(!confirm('确定删除帖子？（ID:' + tid + '）')) return;
-	$.get('api/thread.handler.php?act=delete&tid=' + tid, function(ret) {
-		if(ret.lastIndexOf('0', 0) == 0) {
-			refreshLessonForum();
-		}else if(ret.lastIndexOf('1', 0) == 0) {
-			alert(ret.substr(2));
-		}
+	apiGet('api/thread.handler.php?act=delete&tid=' + tid, function() {
+		refreshLessonForum();
 	});
 }
 
@@ -150,8 +140,9 @@ function showOrHideLessonmate() {
 }
 
 function loadLessonmates(){
-		$.getJSON('api/getlessonmates.php?lid=' + lid + '&page=' + lessonmatePage, function(ret) {
-		showLessonmates(ret);
+		apiGet('api/getlessonmates.php?lid=' + lid + '&page=' + lessonmatePage, function(data, metadata) {
+		lessonmatesPerPage = metadata.lessonmatesPerPage;
+		showLessonmates(data);
 	});
 }
 
@@ -159,7 +150,7 @@ function showLessonmates(lessonmates) {
 	var row = '';
 	for(var i = 0; i < lessonmates.length; i++){
 		var lessonmate = lessonmates[i];
-		var registered = (lessonmate['registered']==1);
+		var registered = (lessonmate['registered'] == 1);
 		row += (registered) ? '<div class="lessonmatelist_wrap_registered bdl bdr bdb" title="TA也在课友网哦，点击进入TA的主页">' : '<div class="lessonmatelist_wrap bdl bdr bdb" title="TA还没有在课友网注册，快邀请TA吧！">';
 		if(registered) {
 			row += '<span class="fl"><a target="_blank" href="user.php?uxh=' + lessonmate['xh'] + '"><img src="' + getAvatarURL(lessonmate['xh'], (lessonmate['has_avatar'] == 1)) + '" style="max-width:35px;max-height:35px;"></a></span>';

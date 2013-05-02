@@ -8,9 +8,10 @@ class User {
 	
 	public static function login($uxh, $password) {
 		if(self::verify($uxh, $password)) {
-			return '0|'.self::genCookie($uxh, $password);
+			$ck = self::genCookie($uxh, $password);
+			retdata($ck);
 		}else{
-			return '1|登录失败，请检查学号或密码是否有误';
+			reterror('登录失败，请检查学号或密码是否有误');
 		}
 	}
 	
@@ -64,19 +65,19 @@ class User {
 
 	public static function setSignature($signature) {
 		$uxh = User::getUXH();
-		if($uxh == false) return '1|你还没有登录！';
+		if($uxh == false) reterror('你还没有登录！');
 		DB::query("UPDATE ahut_user SET signature='".$signature."' WHERE uxh='{$uxh}'");
-		echo '0';
 	}
 	
 	public static function register($uxh, $password) {
-		if(self::exists($uxh)) return '1|该学号已被注册，如有疑问请联系renzhen999@gmail.com';
-		if(!isRealXH($uxh)) return '1|该学号不存在，如有疑问请联系renzhen999@gmail.com';
+		if(self::exists($uxh)) reterror('该学号已被注册，如有疑问请联系renzhen999@gmail.com');
+		if(!isRealXH($uxh)) reterror('该学号不存在，如有疑问请联系renzhen999@gmail.com');
 		$date = date('Y-m-d H:i:s');
 		$uinfo = getProfileByXH($uxh);
 		DB::query("INSERT INTO ahut_user (uxh, uname, bj, password, register_time, lastlogin_time) VALUES ('$uxh', '{$uinfo['xm']}', '{$uinfo['bj']}', '$password', '$date', '$date')");
 		DB::query("UPDATE ahut_profile SET registered=1 WHERE xh='$uxh'");
-		return '0|'.self::genCookie($uxh, $password);
+		$ck = self::genCookie($uxh, $password);
+		retdata($ck);
 	}
 	
 	public static function exists($uxh) {

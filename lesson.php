@@ -19,16 +19,16 @@ $page->displayHeader();
 ?>
 <script>
 var totalThreads = 1;
-var threadsPerPage = <?php echo THREADS_PER_PAGE;?>;
+var threadsPerPage = 1;
 var totalPages = 1;
-var currentPage = 1;
 var showLessonmate = false;
 var lessonmates = null;
-var lessonmatePage = 0;
-var lessonmatesPerPage= <?php echo LESSONMATES_PER_PAGE;?>;
+var lessonmatePage = 0; //0 for not init state
+var lessonmatesPerPage = 1;
 <?php
+echo "var currentPage = '$viewpage';";
 echo "var lid = '$lid';";
-echo "loadLessonPage($viewpage);";
+echo "loadLessonPage(currentPage);";
 $uinfo = User::getUserInfo();
 echo ($uinfo != false && $uinfo['is_admin'] == 1) ? "var is_admin = true;" : "var is_admin = false;";
 ?>

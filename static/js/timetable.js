@@ -1,6 +1,7 @@
 function loadTimetable(){
 	showLoading();
-	$.getJSON('api/getlessons.php?xh=' + xh, function(lessons) {
+	apiGet('api/getlessons.php?xh=' + xh, function(lessons, metadata) {
+		xm = metadata.xm;
 		showTimetable(lessons);
 	});
 }
@@ -31,7 +32,6 @@ function showTimetable(lessons){
 	}
 	tablehead += '</tr>';
 	var row = '<tr>';
-	var xm = '';
 	for(var time = 0; time < 5; time++){
 		for(var week = 0; week < 7; week++){
 			row += '<td>';
@@ -42,14 +42,12 @@ function showTimetable(lessons){
 				row += '<div class="teachername">' + lesson['teachername'] + '</div>';
 				row += '<div class="place">' + lesson['place'] + '</div>';
 				row += '</div>';
-				if(xm == '') xm = lesson['xm'];
 			}
 			row += '</div></td>';
 		}
 		row += '</tr>';
 	}
-	var tablename = xm + '的课表';
-	$('#timetable_name').html(tablename);
+	$('#timetable_name').html(xm + '的课表');
 	$('#timetable').html(tablehead + row);
 	hideLoading();
 }

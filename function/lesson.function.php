@@ -11,7 +11,7 @@ function getLessonListByXH($xh) {
 //将mysql查询结果转换为课程二维数组
 function resultToLessons($result) {
 	$lessons = array();
-	while($row = mysql_fetch_assoc($result)) {
+	while(($row = mysql_fetch_assoc($result)) == true) {
 		if(!isset($lessons[$row['week']])) {
 			$lessons[$row['week']] = array();
 		}

@@ -29,9 +29,8 @@ $page->displayHeader();
 ?>
 <script>
 var totalPosts = 1;
-var postsPerPage = <?php echo POSTS_PER_PAGE;?>;
+var postsPerPage = 1;
 var totalPages = 1;
-var currentPage = 1;
 <?php
 $uinfo = User::getUserInfo();
 $is_admin = ($uinfo != false && $uinfo['is_admin'] == 1);
@@ -40,10 +39,11 @@ echo <<<EOD
 var lid = '$lid';
 var tid = '$tid';
 EOD;
+echo "var currentPage = $viewpage;";	
 if(empty($pid)){
-	echo "loadThreadPage($viewpage);";	
+	echo "loadThreadPage(currentPage);";	
 }else{
-	echo "loadThreadPage($viewpage, $pid);";
+	echo "loadThreadPage(currentPage, $pid);";
 }
 ?>
 </script>

@@ -1,8 +1,9 @@
 function loadForumPage(page){
-	$.getJSON('api/getforum.php?page=' + page, function(ret) {
-		totalThreads = ret[0];
+	apiGet('api/getforum.php?page=' + page, function(data, metadata) {
+		totalThreads = metadata.total;
+		threadsPerPage = metadata.threadsPerPage;
 		currentPage = page;
-		showForum(ret[1]);
+		showForum(data);
 	});
 }
 
@@ -67,24 +68,21 @@ function showForum(threads){
 
 function jumpToForumPage(page) {
 	$.getJSON('api/getforum.php?lid=' + lid + '&page=' + page, function(ret) {
-		totalThreads = ret[0];
+		totalThreads = metadata.total;
+		threadsPerPage = metadata.threadsPerPage;
 		currentPage = page;
-		showForum(ret[1]);
+		showForum(data);
 		$('#threadlist').ScrollTo();
 	});
 }
 
 function refreshForum(){
-	loadPage(currentPage);
+	loadForumPage(currentPage);
 }
 
 function deleteForumThread(tid) {
 	if(!confirm('确定删除帖子？（ID:' + tid + '）')) return;
-	$.get('api/thread.handler.php?act=delete&tid=' + tid, function(ret) {
-		if(ret.lastIndexOf('0', 0) == 0) {
-			refreshForum();
-		}else if(ret.lastIndexOf('1', 0) == 0) {
-			alert(ret.substr(2));
-		}
+	apiGet('api/thread.handler.php?act=delete&tid=' + tid, function(ret) {
+		refreshForum();
 	});
 }

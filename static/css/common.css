@@ -102,7 +102,7 @@ img { border: none; }
 
 .main_message { border:1px solid #CDCDCD; margin: 10px; }
 .main_message_content { margin: 30px 0px; line-height: 30px; text-align: center; }
-.empty_message { text-align: center; height: 300px; line-height: 300px; }
+.empty_message { text-align: center; height: 150px; line-height: 150px; }
 
 /* timetable */
 #input_xh span:hover { cursor:pointer; }
@@ -178,7 +178,7 @@ img { border: none; }
 .newpost_wrap .title { width: 520px; }
 
 /* user */
-.userinfo { width: 200px; height: 442px; }
+.userinfo { width: 200px; }
 .userinfo .block_content { text-align: center; padding: 20px 0px; }
 .userinfo .uname { padding: 6px 0px; font-size: 15px; color: #111; }
 .userinfo .signature { color: #666; }

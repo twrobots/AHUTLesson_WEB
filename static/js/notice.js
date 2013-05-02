@@ -1,5 +1,5 @@
 function loadNotice() {
-	$.getJSON('api/notice.handler.php?act=getnotice&page=' + noticePage, function(ret) {
+	apiGet('api/notice.handler.php?act=getnotice&page=' + noticePage, function(ret) {
 		showNotice(ret);
 	});
 }

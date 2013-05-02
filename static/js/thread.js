@@ -1,10 +1,11 @@
 function loadThreadPage(page, topid){
-	$.getJSON('api/post.handler.php?act=get&tid=' + tid + '&page=' + page, function(ret) {
-		totalPosts = ret[1];
-		currentPage = page;
-		showThread(ret[0]);
+	apiGet('api/post.handler.php?act=get&tid=' + tid + '&page=' + page, function(data, metadata) {
+		currentPage = metadata.currentPage;
+		totalPosts = metadata.total;
+		postsPerPage = metadata.postsPerPage;
+		showThread(data);
 		topid = typeof topid !== 'undefined' ? topid : false;
-		if(topid != false)scrollToPost(topid);
+		if(topid != false) scrollToPost(topid);
 	});
 }
 
@@ -29,8 +30,13 @@ function showThread(posts){
 		postlist += '<pre class="post_content_text">' + post['content'] + '</pre>';
 
 		postlist += '<div class="post_content_info">';
-		if(is_admin) postlist += '<span class="admin"><a class="clickable" onclick="deletePost(' + post['pid'] + ');">删除</a></span>';	
 		
+		if(post['floor'] > 1) {
+			postlist += '<span><a class="clickable" onclick="replyPost(' + post['floor'] + ');">回复</a></span>';	
+			
+			if(is_admin) postlist += '<span class="admin"><a class="clickable" onclick="deletePost(' + post['pid'] + ');">删除</a></span>';	
+		}
+	
 		if(post['from_client'] == '1') {
 			postlist += '<span>来自<a target="_blank" href="android.php">Android版</a></span>';
 		}
@@ -77,10 +83,11 @@ function showThread(posts){
 }
 
 function jumpToThreadPage(page) {
-	$.getJSON('api/post.handler.php?act=get&tid=' + tid + '&page=' + page, function(ret) {
-		totalPosts = ret[0];
-		currentPage = page;
-		showThread(ret[1]);
+	apiGet('api/post.handler.php?act=get&tid=' + tid + '&page=' + page, function(data, metadata) {
+		currentPage = metadata.currentPage;
+		totalPosts = metadata.total;
+		postsPerPage = metadata.postsPerPage;
+		showThread(data);
 		$('#postlist').ScrollTo();
 	});
 }
@@ -103,19 +110,12 @@ function newPost() {
 
 	$('#submit_button').html('提交中...');
 	$('#submit_button').attr('disabled', true);
-	$.post("api/post.handler.php?act=new", { c: content, t: tid })
-	.done(function(ret) {
-		if(ret.lastIndexOf('0', 0) == 0) {
+	apiPost("api/post.handler.php?act=new", { c: content, t: tid }, function(newpid) {
 			$('#newpost_content').val('');
-			var newpid = ret.substr(2);
 			window.location.href = "thread.php?tid=" + tid + "&pid=" + newpid;
-		}else{
-			if(ret.lastIndexOf('1', 0) == 0) {
-				alert(ret.substr(2));
-			}
-			$('#submit_button').html('提交');
-			$('#submit_button').attr('disabled', false);
-		}
+	}, function() {
+		$('#submit_button').html('提交');
+		$('#submit_button').attr('disabled', false);
 	});
 }
 
@@ -125,17 +125,19 @@ function scrollToPost(pid) {
 
 function deletePost(pid) {
 	if(!confirm('确定删除回复帖？')) return;
-	$.get('api/post.handler.php?act=delete&pid=' + pid, function(ret) {
-		if(ret.lastIndexOf('0', 0) == 0) {
-			refreshThread();
-		}else if(ret.lastIndexOf('1', 0) == 0) {
-			alert(ret.substr(2));
-		}
+	apiGet('api/post.handler.php?act=delete&pid=' + pid, function() {
+		refreshThread();
 	});
 }
 
+function replyPost(floor) {
+	$('#newpost_content').val('回复' + floor + '楼: ');
+	$('#newpost_content').ScrollTo();
+	$('#newpost_content').focus();
+}
+
 function setThreadTop(value) {
-	$.get('api/thread.handler.php?act=settop&tid=' + tid + '&value=' + value, function(ret) {
-		if(ret == '') alert('done!');
+	apiGet('api/thread.handler.php?act=settop&tid=' + tid + '&value=' + value, function() {
+		alert('done!');
 	});
 }

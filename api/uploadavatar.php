@@ -2,25 +2,25 @@
 require 'include.php';
 
 $uxh = User::getUXH();
-if($uxh == false) die('1|你还没有登录');
+if($uxh == false) reterror('你还没有登录');
 
-if(!isset($_FILES["avatar_file"])) die('1|没有上传头像文件');
+if(!isset($_FILES["avatar_file"])) reterror('没有上传头像文件');
 
 if ($_FILES["avatar_file"]["error"] > 0) {
-	die("1|上传失败！错误号:" . $_FILES["avatar_file"]["error"]);
+	reterror('上传失败！错误号:'. $_FILES["avatar_file"]["error"]);
 }
 
 $fileType = strtolower(strrchr($_FILES['avatar_file']['name'],"."));
 if (!in_array($fileType, array(".jpg", ".jpeg", ".gif", ".png"))) {
-	die('1|目前仅支持格式为jpg、jpeg、gif、png的图片!');
+	reterror('目前仅支持格式为jpg、jpeg、gif、png的图片!');
 }
 if( $_FILES['avatar_file']['size'] > 2097152 ) {
-	die('1|目图片不能超过2MB!');
+	reterror('目图片不能超过2MB!');
 }
 $imgInfo = @getimagesize($_FILES['avatar_file']['tmp_name']);
 
 if(!$imgInfo || !in_array($imgInfo[2], array(1,2,3))) {
-	die('1|无法识别你上传的文件!');
+	reterror('无法识别你上传的文件!');
 }
 
 $tmpAvatar = $_FILES['avatar_file']['tmp_name'];
@@ -77,5 +77,5 @@ if($fileType != ".jpg" && file_exists($tmpAvatar)) {
 
 setAvatarState($uxh);
 
-echo '0';
+retok();
 ?>
