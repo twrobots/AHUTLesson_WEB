@@ -6,7 +6,7 @@ class DB {
 		if(self::$connected) return;
 		$con = @mysql_connect(DB_SERVER.':'.DB_PORT, DB_USERNAME, DB_PASSWORD);
 		if(!$con) {
-			die('1|无法连接数据库');
+			reterror('无法连接数据库');
 		}else{
 			self::$connected = true;
 		}

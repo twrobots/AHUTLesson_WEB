@@ -38,7 +38,9 @@ function showTimetable(lessons){
 			if (typeof lessons[week] != 'undefined' && typeof lessons[week][time] != 'undefined') {
 				var lesson = lessons[week][time];
 				row += '<div title="点击进入课程讨论" class="lessongrid" onclick="openLessonForum(\'' + lesson['lid'] + '\');">';
-				row += '<div class="lessonname">' + lesson['lessonname'] + '</div>';
+				row += '<div class="lessonname">' + lesson['lessonname'];
+				if(lesson['hasnew'] == 1) row += '<span class="hasnew">New</span>';
+				row += '</div>';
 				row += '<div class="teachername">' + lesson['teachername'] + '</div>';
 				row += '<div class="place">' + lesson['place'] + '</div>';
 				row += '</div>';

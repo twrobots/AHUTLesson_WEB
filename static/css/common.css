@@ -87,7 +87,7 @@ img { border: none; }
 .sitename a { font-size: 25px; }
 
 #navi { height:60px; float:right; }
-	#navi a { font-size:20px; padding: 10px; padding-left: 15px; padding-right: 15px; }
+	#navi a { font-size: 20px; padding: 10px; padding-left: 15px; padding-right: 15px; }
 	#navi .selected { border-top: 2px solid #036A93; }
 	#navi a:hover { border-top: 2px solid #036A93; }
 	#navi ul { padding-left: 22px; }
@@ -114,8 +114,9 @@ img { border: none; }
 #timetable th { height:20px; font-weight: bold; color: #333;}
 #timetable .lessongrid { width: 119px; height: 100px; position: relative; }
 #timetable .lessongrid .lessonname, #timetable .lessongrid .teachername, #timetable .lessongrid .place { width: 119px; position: absolute; font-family: "宋体"; }
-#timetable .lessongrid .lessonname {  top: 20px; font-size: 15px;  color: #063E55; }
-#timetable .lessongrid .teachername {  bottom: 21px; font-size: 12px; color:#492010; }
+#timetable .lessongrid .lessonname { top: 20px; font-size: 15px;  color: #063E55; }
+#timetable .lessongrid .hasnew { padding-left: 3px; font-size: 12px; color: red; font-weight: bold; } 
+#timetable .lessongrid .teachername { bottom: 21px; font-size: 12px; color:#492010; }
 #timetable .lessongrid .place { bottom: 5px;  font-size: 12px; color:#000; }
 
 /* forum */

@@ -12,6 +12,10 @@ switch($_GET['act']) {
 			'total' => getTotalThreadsNum($lid),
 			'threadsPerPage' => THREADS_PER_PAGE
 		);
+		$uxh = User::getUXH();
+		if($uxh) {
+			markLessonForumRead($uxh, $lid);
+		}
 		retdata($threads, $metadata);
 		break;
 	case 'new':

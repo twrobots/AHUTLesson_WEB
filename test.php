@@ -11,6 +11,7 @@ echo json_encode($ret);
 //{"code":"0","data":{"data":"data","metadata":"test"}}
 */
 
+/*
 $content = '回复2楼: interesting';
 var_dump(isReplyingToReply($content));
 
@@ -31,5 +32,21 @@ function isReplyingToReply($content) {
 	if(!is_numeric($floor_str)) return false;
 	return $floor_str;
 }
+*/
+
+include "include.php";
+
+$uxh = '119074021';
+var_dump(getLidListHasNew($uxh));
+
+function getLidListHasNew($uxh) {
+	$rows = DB::getData("SELECT distinct lid FROM ".LESSON_TABLE." WHERE xh = '$uxh' AND hasnew = 1");
+	$lids = array();
+	foreach($rows as $row) {
+		$lids[] = $row['lid'];
+	}
+	return $lids;
+}
+
 
 ?>
