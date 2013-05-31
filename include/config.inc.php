@@ -16,19 +16,23 @@ if(!defined('IN_SAE')) {
 	define('DB_PASSWORD', SAE_MYSQL_PASS);
 	define('DB_NAME', SAE_MYSQL_DB);
 }
-
 define('USE_MIN_JS', false);
 
-//table
-define('LESSON_TABLE', 'lesson2013');
-define('LESSON_TABLE_BUILD', '20130427');
+date_default_timezone_set("Asia/Shanghai");
 
-
+//page
 define('THREADS_PER_PAGE', 50);
 define('LESSONMATES_PER_PAGE', 50);
 define('POSTS_PER_PAGE', 20);
 define('MESSAGES_PER_PAGE', 15);
 define('NOTICES_PER_PAGE', 15);
 
-date_default_timezone_set("Asia/Shanghai"); 
+define('LESSONDB', 'lesson2013');
+define('LESSONDB_VERSION', '20130528');
+$currentTimetableSetting = array(
+		'year' => 2013,
+		'month' => 2,
+		'day' => 27,
+		'season' => 0 //0 summer, 1 winter
+);
 ?>

@@ -36,17 +36,20 @@ function isReplyingToReply($content) {
 
 include "include.php";
 
+/*
 $uxh = '119074021';
 var_dump(getLidListHasNew($uxh));
 
 function getLidListHasNew($uxh) {
-	$rows = DB::getData("SELECT distinct lid FROM ".LESSON_TABLE." WHERE xh = '$uxh' AND hasnew = 1");
+	$rows = DB::getData("SELECT distinct lid FROM ".LESSONDB." WHERE xh = '$uxh' AND hasnew = 1");
 	$lids = array();
 	foreach($rows as $row) {
 		$lids[] = $row['lid'];
 	}
 	return $lids;
 }
+*/
 
+echo version_compare('1.4.2', '1.5.6');
 
 ?>

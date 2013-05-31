@@ -56,7 +56,7 @@ function markMessageAsRead($uxh) {
 //Notice
 function sendReplyNotice($tid, $pid, $subject, $from_uxh, $to_uxh) {
 	$date = date('Y-m-d H:i:s');
-	DB::query("INSERT INTO ahut_notice (`tid`, `pid`, `subject`, `type`, `read`, `from_uxh`, `to_uxh`, `post_time`) VALUES ('$tid', '$pid', '$subject', 'reply', 0, '$from_uxh', '$to_uxh', '$date')");
+	DB::query("INSERT INTO ahut_notice (`tid`, `pid`, `subject`, `read`, `from_uxh`, `to_uxh`, `post_time`) VALUES ('$tid', '$pid', '$subject', 0, '$from_uxh', '$to_uxh', '$date')");
 	updateUnreadNoticeCount($to_uxh);
 }
 

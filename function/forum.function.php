@@ -8,4 +8,12 @@ function getTotalAllThreadsNum() {
 	return DB::getFirstGrid("SELECT COUNT(*) FROM ahut_thread");
 }
 
+function getLidListHasNew($uxh) {
+	$rows = DB::getData("SELECT distinct lid FROM ".LESSONDB." WHERE xh = '$uxh' AND hasnew = 1");
+	$lids = array();
+	foreach($rows as $row) {
+		$lids[] = $row['lid'];
+	}
+	return $lids;
+}
 ?>

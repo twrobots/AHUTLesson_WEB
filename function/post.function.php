@@ -43,6 +43,10 @@ function getPosts($tid, $page) {
 	return DB::getData("SELECT a.*,b.uname,b.has_avatar FROM ahut_post a,ahut_user b WHERE tid = '$tid' AND a.uxh = b.uxh ORDER BY a.post_time LIMIT $start,".POSTS_PER_PAGE);
 }
 
+function getPost($pid) {
+	return DB::getFirstRow("SELECT a.*,b.uname,b.has_avatar FROM ahut_post a,ahut_user b WHERE pid = '$pid' AND a.uxh = b.uxh");
+}
+
 function getPageByPid($tid, $pid) {
 	$postsBeforeNum = DB::getFirstGrid("SELECT COUNT(*) FROM ahut_post WHERE post_time < (SELECT post_time FROM ahut_post WHERE pid = $pid) AND tid=$tid") ;
 	return (int) ($postsBeforeNum / POSTS_PER_PAGE + 1);

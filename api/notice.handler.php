@@ -6,11 +6,13 @@ switch($_GET['act']) {
 		$uxh = $_GET['uxh'];
 		if(!isValidXH($uxh)) reterror('Invalid Arguments');
 		$unread_count = getUnreadCount($uxh);
-		if($unread_count == false) reterror('Server Error');
-		$ret = array($unread_count['unread_message'], $unread_count['unread_notice']);
+		if($unread_count === false) reterror('Server Error');
+		$ret = array();
+		$ret['m'] = $unread_count['unread_message'];
+		$ret['n'] = $unread_count['unread_notice'];
+		$ret['l'] = getLidListHasNew($uxh);
 		retdata($ret);
 		break;
-	
 	//message
 	case 'sendmessage':
 		$from_uxh = User::getUXH();

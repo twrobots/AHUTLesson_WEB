@@ -8,7 +8,7 @@ $lessons = getLessonListByXH($xh);
 $uinfo = getProfileByXH($xh);
 $metadata = array(
 	'xm' => $uinfo['xm'],
-	'build' => LESSON_TABLE_BUILD
+	'build' => LESSONDB_VERSION
 );
 retdata($lessons, $metadata);
 ?>

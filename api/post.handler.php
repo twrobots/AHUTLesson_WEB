@@ -20,6 +20,11 @@ switch($_GET['act']) {
 		);
 		retdata($posts, $metadata);
 		break;
+	case 'getbypid':
+		if(!isset($_GET['pid']) || !is_numeric($_GET['pid'])) reterror('Invalid Arguments');
+		$pid = $_GET['pid'];
+		retdata(getPost($pid));
+		break;
 	case 'new':
 		if(!isset($_POST['c']) || !isset($_POST['t'])) reterror('Invalid Arguments');
 		$content = htmlspecialchars($_POST['c']);

@@ -6,12 +6,12 @@ function newThread($subject, $content, $lid, $uxh, $from_client) {
 	DB::query("INSERT INTO ahut_thread (lid, subject, uxh, uname, post_time, lastreply_time, lastreply_uxh, lastreply_uname) VALUES ('$lid', '$subject', '$uxh', '{$uinfo['uname']}', '$date', '$date', '$uxh', '{$uinfo['uname']}')");
 	$tid = mysql_insert_id();
 	DB::query("INSERT INTO ahut_post (tid, content, uxh, floor, post_time, from_client) VALUES ('$tid', '$content', '$uxh', '1', '$date', '$from_client')");
-	DB::query("UPDATE ".LESSON_TABLE." SET hasnew = 1 WHERE lid = '$lid'");
+	DB::query("UPDATE ".LESSONDB." SET hasnew = 1 WHERE lid = '$lid'");
 	retdata($tid);
 }
 
 function markLessonForumRead($uxh, $lid) {
-	DB::query("UPDATE ".LESSON_TABLE." SET hasnew = 0 WHERE lid = '$lid' AND xh = '$uxh'");
+	DB::query("UPDATE ".LESSONDB." SET hasnew = 0 WHERE lid = '$lid' AND xh = '$uxh'");
 }
 function addThreadViewCount($tid) {
 	DB::query("UPDATE ahut_thread SET view=view+1 WHERE tid=$tid");

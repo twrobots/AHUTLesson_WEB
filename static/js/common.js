@@ -129,8 +129,8 @@ function isInt(n) {
 
 function checkUnreadMessage() {
 	apiGet('api/notice.handler.php?act=getunreadcount&uxh=' + logged_uxh, function(data) {
-		unreadMessageCount = data[0];
-		unreadNoticeCount = data[1];
+		unreadMessageCount = data.m;
+		unreadNoticeCount = data.n;
 		refreshUnreadCount();
 	});
 }

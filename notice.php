@@ -9,7 +9,7 @@ $page->displayHeader();
 ?>
 <script>
 var noticePage = 1;
-var noticesPerPage = <?php echo NOTICES_PER_PAGE;?>;
+var noticesPerPage = 1;
 loadNotice();
 </script>
 <div class="nav-tab">
