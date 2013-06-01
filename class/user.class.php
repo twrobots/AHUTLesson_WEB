@@ -18,8 +18,7 @@ class User {
 	public static function verify($uxh, $password) {
 		$result = DB::getFirstGrid("SELECT password FROM ahut_user WHERE uxh='$uxh'"); 
 		if($password == $result) {
-			$date = date('Y-m-d H:i:s');
-			DB::query("UPDATE ahut_user SET lastlogin_time='".$date."' WHERE uxh='$uxh'");
+			updateLastLoginTime($uxh);
 			self::$uxh = $uxh;
 			self::$loggedIn = true;
 			return true;

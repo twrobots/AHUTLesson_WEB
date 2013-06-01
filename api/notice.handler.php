@@ -4,6 +4,7 @@ if(!isset($_GET['act'])) exit;
 switch($_GET['act']) {
 	case 'getunreadcount':
 		$uxh = $_GET['uxh'];
+		updateLastLoginTime($uxh);
 		if(!isValidXH($uxh)) reterror('Invalid Arguments');
 		$unread_count = getUnreadCount($uxh);
 		if($unread_count === false) reterror('Server Error');

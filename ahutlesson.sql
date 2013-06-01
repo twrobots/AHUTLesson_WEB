@@ -76,7 +76,6 @@ CREATE TABLE IF NOT EXISTS `ahut_notice` (
   `tid` int(11) NOT NULL,
   `pid` int(11) NOT NULL,
   `subject` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
-  `type` enum('reply','at') COLLATE utf8_unicode_ci NOT NULL,
   `read` tinyint(1) NOT NULL,
   `to_uxh` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
   `from_uxh` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
@@ -187,6 +186,7 @@ CREATE TABLE IF NOT EXISTS `lesson2013` (
   `startweek` tinyint(4) NOT NULL,
   `endweek` tinyint(4) NOT NULL,
   `place` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `hasnew` BOOLEAN NOT NULL DEFAULT FALSE,
   KEY `xh` (`xh`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

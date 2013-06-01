@@ -9,6 +9,11 @@ function isRealXH($xh) {
 	}
 }
 
+function updateLastLoginTime($uxh) {
+	$date = date('Y-m-d H:i:s');
+	DB::query("UPDATE ahut_user SET lastlogin_time='".$date."' WHERE uxh='$uxh'");
+}
+
 function getLoginUserInfoByXH($uxh) { //must be registered uxh
 	return DB::getFirstRow("SELECT u.*,p.* FROM ahut_user u,ahut_profile p WHERE u.uxh = p.xh AND u.uxh = '$uxh'");
 }
